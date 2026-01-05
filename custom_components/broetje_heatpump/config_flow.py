@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any
 
 import voluptuous as vol
-from pymodbus.client import AsyncModbusTcpClient
-from pymodbus.exceptions import ModbusException
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_HOST, CONF_PORT
@@ -77,27 +76,51 @@ class BroetjeHeatpumpConfigFlow(ConfigFlow, domain=DOMAIN):
 
     async def _test_connection(self, host: str, port: int, unit_id: int) -> None:
         """Test if we can connect to the Modbus device."""
+        from pymodbus.client import AsyncModbusTcpClient
+        from pymodbus.exceptions import ModbusException
+
         client = AsyncModbusTcpClient(host=host, port=port)
         
         try:
-            if not await client.connect():
+            _LOGGER.debug("Attempting to connect to %s:%s", host, port)
+            
+            connected = await client.connect()
+            if not connected:
+                _LOGGER.error("Failed to connect to %s:%s", host, port)
                 raise CannotConnect(f"Failed to connect to {host}:{port}")
+            
+            _LOGGER.debug("Connected successfully, testing register read with unit_id=%s", unit_id)
             
             # Try to read a register to verify communication
             # Using input register 0 as a basic connectivity test
-            result = await client.read_input_registers(
-                address=0,
-                count=1,
-                slave=unit_id,
-            )
-            
-            if result.isError():
-                _LOGGER.warning("Modbus read error during connection test: %s", result)
-                # Connection works but register read failed - might be wrong unit_id
-                # We still allow setup as register addresses may differ
+            try:
+                async with asyncio.timeout(5):
+                    result = await client.read_input_registers(
+                        address=0,
+                        count=1,
+                        slave=unit_id,
+                    )
+                
+                if hasattr(result, 'isError') and result.isError():
+                    _LOGGER.warning(
+                        "Modbus read error during connection test (this may be normal): %s",
+                        result
+                    )
+                else:
+                    _LOGGER.debug("Register read successful: %s", result)
+                    
+            except TimeoutError:
+                _LOGGER.warning("Register read timed out (connection may still be valid)")
+                
+            # Connection works - register read failures are acceptable at this stage
+            # since we don't know the exact register addresses yet
+            _LOGGER.info("Connection test successful for %s:%s", host, port)
                 
         except ModbusException as err:
             _LOGGER.error("Modbus exception during connection test: %s", err)
+            raise CannotConnect(str(err)) from err
+        except OSError as err:
+            _LOGGER.error("OS error during connection test: %s", err)
             raise CannotConnect(str(err)) from err
         finally:
             client.close()
