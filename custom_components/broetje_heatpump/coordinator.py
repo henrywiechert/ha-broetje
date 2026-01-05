@@ -115,13 +115,13 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     result = await self._client.read_input_registers(
                         address=address,
                         count=count,
-                        slave=self._unit_id,
+                        unit=self._unit_id,
                     )
                 elif register_type == REG_HOLDING:
                     result = await self._client.read_holding_registers(
                         address=address,
                         count=count,
-                        slave=self._unit_id,
+                        unit=self._unit_id,
                     )
                 else:
                     _LOGGER.error("Unknown register type: %s", register_type)

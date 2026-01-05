@@ -98,7 +98,7 @@ class BroetjeHeatpumpConfigFlow(ConfigFlow, domain=DOMAIN):
                     result = await client.read_input_registers(
                         address=0,
                         count=1,
-                        slave=unit_id,
+                        unit=unit_id,
                     )
                 
                 if hasattr(result, 'isError') and result.isError():
