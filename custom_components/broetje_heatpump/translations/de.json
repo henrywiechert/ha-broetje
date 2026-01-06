@@ -154,6 +154,39 @@
       },
       "dhw_status": {
         "name": "TWW Status"
+      },
+      "dhw_tank_temp_1": {
+        "name": "Trinkwassertemperatur 1"
+      },
+      "dhw_tank_temp_2": {
+        "name": "Trinkwassertemperatur 2"
+      },
+      "dhw_charging_time_limit": {
+        "name": "TWW Ladezeitbegrenzung"
+      },
+      "dhw_flow_setpoint_boost": {
+        "name": "TWW Vorlaufsollwertüberhöhung"
+      },
+      "dhw_switching_differential": {
+        "name": "TWW Schaltdifferenz"
+      },
+      "dhw_charging_temp_max": {
+        "name": "TWW Ladetemperatur Maximum"
+      },
+      "dhw_pump_speed": {
+        "name": "TWW Trinkwasserpumpe Drehzahl"
+      },
+      "dhw_intermediate_pump_speed": {
+        "name": "TWW Zw.kreispumpe Drehzahl"
+      },
+      "dhw_current_setpoint": {
+        "name": "TWW Trinkwassersollwert"
+      },
+      "dhw_circulation_temp": {
+        "name": "TWW Zirkulationstemperatur"
+      },
+      "dhw_charging_temp": {
+        "name": "TWW Ladetemperatur"
       }
     },
     "binary_sensor": {
@@ -171,6 +204,15 @@
       },
       "hc1_mixer_close": {
         "name": "HK1 Mischer Zu"
+      },
+      "dhw_pump": {
+        "name": "TWW Trinkwasserpumpe"
+      },
+      "dhw_circulation_pump": {
+        "name": "TWW Zirkulationspumpe Q4"
+      },
+      "dhw_intermediate_pump": {
+        "name": "TWW Zw.kreispumpe Q33"
       }
     }
   }

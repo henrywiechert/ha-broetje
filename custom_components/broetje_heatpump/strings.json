@@ -154,6 +154,39 @@
       },
       "dhw_status": {
         "name": "DHW Status"
+      },
+      "dhw_tank_temp_1": {
+        "name": "DHW Tank temperature 1"
+      },
+      "dhw_tank_temp_2": {
+        "name": "DHW Tank temperature 2"
+      },
+      "dhw_charging_time_limit": {
+        "name": "DHW Charging time limit"
+      },
+      "dhw_flow_setpoint_boost": {
+        "name": "DHW Flow setpoint boost"
+      },
+      "dhw_switching_differential": {
+        "name": "DHW Switching differential"
+      },
+      "dhw_charging_temp_max": {
+        "name": "DHW Max charging temperature"
+      },
+      "dhw_pump_speed": {
+        "name": "DHW Pump speed"
+      },
+      "dhw_intermediate_pump_speed": {
+        "name": "DHW Intermediate circuit pump speed"
+      },
+      "dhw_current_setpoint": {
+        "name": "DHW Current setpoint"
+      },
+      "dhw_circulation_temp": {
+        "name": "DHW Circulation temperature"
+      },
+      "dhw_charging_temp": {
+        "name": "DHW Charging temperature"
       }
     },
     "binary_sensor": {
@@ -171,6 +204,15 @@
       },
       "hc1_mixer_close": {
         "name": "HC1 Mixer close"
+      },
+      "dhw_pump": {
+        "name": "DHW Pump"
+      },
+      "dhw_circulation_pump": {
+        "name": "DHW Circulation pump"
+      },
+      "dhw_intermediate_pump": {
+        "name": "DHW Intermediate circuit pump"
       }
     }
   }

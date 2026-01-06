@@ -374,6 +374,121 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
+    
+    # ===== TRINKWASSERSPEICHER (DHW Storage Tank) =====
+    
+    # DHW Temperature 1 - Register 11264 (read-only)
+    "dhw_tank_temp_1": {
+        "address": 11264,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # DHW Temperature 2 - Register 11266 (read-only)
+    "dhw_tank_temp_2": {
+        "address": 11266,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Charging time limit - Register 11280
+    "dhw_charging_time_limit": {
+        "address": 11280,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Flow setpoint boost - Register 11290
+    "dhw_flow_setpoint_boost": {
+        "address": 11290,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Switching differential - Register 11294
+    "dhw_switching_differential": {
+        "address": 11294,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Maximum charging temperature - Register 11299
+    "dhw_charging_temp_max": {
+        "address": 11299,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # DHW pump state - Register 11369 (read-only)
+    "dhw_pump": {
+        "address": 11369,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # DHW pump speed - Register 11373 (read-only)
+    "dhw_pump_speed": {
+        "address": 11373,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # DHW intermediate circuit pump speed - Register 11375 (read-only)
+    "dhw_intermediate_pump_speed": {
+        "address": 11375,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # DHW current setpoint - Register 11379 (read-only)
+    "dhw_current_setpoint": {
+        "address": 11379,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # DHW circulation temperature - Register 11381 (read-only)
+    "dhw_circulation_temp": {
+        "address": 11381,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # DHW charging temperature - Register 11383 (read-only)
+    "dhw_charging_temp": {
+        "address": 11383,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Circulation pump Q4 state - Register 11395 (read-only)
+    "dhw_circulation_pump": {
+        "address": 11395,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Intermediate circuit pump Q33 state - Register 11411 (read-only)
+    "dhw_intermediate_pump": {
+        "address": 11411,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
 }
 
 # Sensor definitions
@@ -631,6 +746,89 @@ SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:information-outline",
     },
+    
+    # ===== DHW Storage Tank (Trinkwasserspeicher) Sensors =====
+    
+    "dhw_tank_temp_1": {
+        "register": "dhw_tank_temp_1",
+        "translation_key": "dhw_tank_temp_1",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_tank_temp_2": {
+        "register": "dhw_tank_temp_2",
+        "translation_key": "dhw_tank_temp_2",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_charging_time_limit": {
+        "register": "dhw_charging_time_limit",
+        "translation_key": "dhw_charging_time_limit",
+        "device_class": None,
+        "unit": "min",
+        "state_class": "measurement",
+        "icon": "mdi:timer-outline",
+    },
+    "dhw_flow_setpoint_boost": {
+        "register": "dhw_flow_setpoint_boost",
+        "translation_key": "dhw_flow_setpoint_boost",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_switching_differential": {
+        "register": "dhw_switching_differential",
+        "translation_key": "dhw_switching_differential",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_charging_temp_max": {
+        "register": "dhw_charging_temp_max",
+        "translation_key": "dhw_charging_temp_max",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_pump_speed": {
+        "register": "dhw_pump_speed",
+        "translation_key": "dhw_pump_speed",
+        "device_class": None,
+        "unit": "%",
+        "state_class": "measurement",
+        "icon": "mdi:pump",
+    },
+    "dhw_intermediate_pump_speed": {
+        "register": "dhw_intermediate_pump_speed",
+        "translation_key": "dhw_intermediate_pump_speed",
+        "device_class": None,
+        "unit": "%",
+        "state_class": "measurement",
+        "icon": "mdi:pump",
+    },
+    "dhw_current_setpoint": {
+        "register": "dhw_current_setpoint",
+        "translation_key": "dhw_current_setpoint",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_circulation_temp": {
+        "register": "dhw_circulation_temp",
+        "translation_key": "dhw_circulation_temp",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "dhw_charging_temp": {
+        "register": "dhw_charging_temp",
+        "translation_key": "dhw_charging_temp",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
 }
 
 # Binary sensor definitions
@@ -661,5 +859,23 @@ BINARY_SENSORS: Final = {
         "translation_key": "hc1_mixer_close",
         "device_class": None,
         "icon": "mdi:valve-closed",
+    },
+    
+    # ===== DHW Storage Tank (Trinkwasserspeicher) Binary Sensors =====
+    
+    "dhw_pump": {
+        "register": "dhw_pump",
+        "translation_key": "dhw_pump",
+        "device_class": "running",
+    },
+    "dhw_circulation_pump": {
+        "register": "dhw_circulation_pump",
+        "translation_key": "dhw_circulation_pump",
+        "device_class": "running",
+    },
+    "dhw_intermediate_pump": {
+        "register": "dhw_intermediate_pump",
+        "translation_key": "dhw_intermediate_pump",
+        "device_class": "running",
     },
 }

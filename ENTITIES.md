@@ -104,6 +104,32 @@ This document lists all entities provided by the Brötje Heatpump integration.
 | 6 | Samstag | Saturday |
 | 7 | Sonntag | Sunday |
 
+## DHW Storage Tank (Trinkwasserspeicher)
+
+### Sensors
+
+| Entity | Description | Register | Unit | R/W |
+|--------|-------------|----------|------|-----|
+| DHW Tank temperature 1 | DHW tank temperature sensor 1 | 11264 | °C | R |
+| DHW Tank temperature 2 | DHW tank temperature sensor 2 | 11266 | °C | R |
+| DHW Charging time limit | Maximum charging time | 11280 | min | R/W |
+| DHW Flow setpoint boost | Flow temperature boost (Vorlaufsollwertüberhöhung) | 11290 | °C | R/W |
+| DHW Switching differential | Switching differential (Schaltdifferenz) | 11294 | °C | R/W |
+| DHW Max charging temperature | Maximum charging temperature | 11299 | °C | R/W |
+| DHW Pump speed | DHW pump speed (Trinkwasserpumpe) | 11373 | % | R |
+| DHW Intermediate circuit pump speed | Intermediate circuit pump speed | 11375 | % | R |
+| DHW Current setpoint | Current active DHW setpoint | 11379 | °C | R |
+| DHW Circulation temperature | Circulation temperature | 11381 | °C | R |
+| DHW Charging temperature | Charging temperature (Ladetemperatur) | 11383 | °C | R |
+
+### Binary Sensors
+
+| Entity | Description | Register | Values |
+|--------|-------------|----------|--------|
+| DHW Pump | DHW pump state (Trinkwasserpumpe) | 11369 | 0=Off, 1=On |
+| DHW Circulation pump | Circulation pump Q4 state | 11395 | 0=Off, 1=On |
+| DHW Intermediate pump | Intermediate circuit pump Q33 state | 11411 | 0=Off, 1=On |
+
 ## Scale Factors
 
 The following scale factors are used to convert raw register values:
