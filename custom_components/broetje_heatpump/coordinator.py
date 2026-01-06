@@ -49,7 +49,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self._unit_id = entry.data.get(CONF_UNIT_ID, DEFAULT_UNIT_ID)
         self._client: AsyncModbusTcpClient | None = None
         self._lock = asyncio.Lock()
-        
+
         # Device info
         self.device_serial: str | None = None
         self.device_model: str = DEFAULT_MODEL
@@ -70,10 +70,10 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             host=self._host,
             port=self._port,
         )
-        
+
         if not await self._client.connect():
             raise UpdateFailed(f"Failed to connect to {self._host}:{self._port}")
-        
+
         _LOGGER.debug("Connected to Modbus device at %s:%s", self._host, self._port)
 
     async def _disconnect(self) -> None:
@@ -99,7 +99,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         async with self._lock:
             try:
                 await self._connect()
-                
+
                 if register_type == REG_INPUT:
                     result = await self._client.read_input_registers(
                         address=address, count=count, device_id=self._unit_id
@@ -139,7 +139,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                         reg_config.get("count", 1),
                         reg_config["type"],
                     )
-                    
+
                     if result is not None:
                         data[key] = self._process_register_value(result, reg_config)
                     else:

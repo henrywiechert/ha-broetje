@@ -34,7 +34,7 @@ async def async_setup_entry(
     coordinator: BroetjeModbusCoordinator = entry.runtime_data
 
     entities: list[BroetjeBinarySensor] = []
-    
+
     for sensor_key, sensor_config in BINARY_SENSORS.items():
         entities.append(
             BroetjeBinarySensor(
@@ -58,15 +58,15 @@ class BroetjeBinarySensor(BroetjeEntity, BinarySensorEntity):
     ) -> None:
         """Initialize the binary sensor."""
         super().__init__(coordinator, entity_key)
-        
+
         self._register_key = sensor_config["register"]
         self._attr_translation_key = sensor_config.get("translation_key", entity_key)
-        
+
         # Set device class
         device_class = sensor_config.get("device_class")
         if device_class:
             self._attr_device_class = DEVICE_CLASS_MAP.get(device_class)
-        
+
         # Set icon if specified
         if icon := sensor_config.get("icon"):
             self._attr_icon = icon
@@ -76,10 +76,10 @@ class BroetjeBinarySensor(BroetjeEntity, BinarySensorEntity):
         """Return true if the binary sensor is on."""
         if self.coordinator.data is None:
             return None
-        
+
         value = self.coordinator.data.get(self._register_key)
-        
+
         if value is None:
             return None
-        
+
         return bool(value)

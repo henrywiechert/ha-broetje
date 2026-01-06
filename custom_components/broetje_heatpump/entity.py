@@ -22,9 +22,11 @@ class BroetjeEntity(CoordinatorEntity[BroetjeModbusCoordinator]):
         """Initialize the entity."""
         super().__init__(coordinator)
         self._entity_key = entity_key
-        
+
         # Generate unique ID based on device and entity key
-        device_id = coordinator.config_entry.unique_id or coordinator.config_entry.entry_id
+        device_id = (
+            coordinator.config_entry.unique_id or coordinator.config_entry.entry_id
+        )
         self._attr_unique_id = f"{device_id}_{entity_key}"
 
     @property

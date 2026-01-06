@@ -30,29 +30,29 @@ SCALE_HOURS: Final = 1 / 3600  # for hours stored as seconds
 # Operating mode enumeration (Betriebsart)
 OPERATING_MODES: Final = {
     0: "protection",  # Schutzbetrieb
-    1: "auto",        # Automatik
-    2: "reduced",     # Reduziert
-    3: "comfort",     # Komfort
+    1: "auto",  # Automatik
+    2: "reduced",  # Reduziert
+    3: "comfort",  # Komfort
 }
 
 # DHW Operating mode enumeration (Trinkwasser Betriebsart)
 DHW_OPERATING_MODES: Final = {
-    0: "off",   # Aus
-    1: "on",    # Ein
-    2: "eco",   # Eco
+    0: "off",  # Aus
+    1: "on",  # Ein
+    2: "eco",  # Eco
 }
 
 # DHW Release mode enumeration (Freigabe)
 DHW_RELEASE_MODES: Final = {
-    0: "24h",              # 24h/Tag
+    0: "24h",  # 24h/Tag
     1: "heating_program",  # Zeitprogramme Heizkreise
-    2: "dhw_program",      # Zeitprogramm 4/TWW
+    2: "dhw_program",  # Zeitprogramm 4/TWW
 }
 
 # Legionella function mode enumeration
 LEGIONELLA_MODES: Final = {
-    0: "off",        # Aus
-    1: "periodic",   # Periodisch
+    0: "off",  # Aus
+    1: "periodic",  # Periodisch
     2: "fixed_day",  # Fixer Wochentag
 }
 
@@ -69,9 +69,9 @@ WEEKDAYS: Final = {
 
 # Burner power enumeration (Brennerleistung)
 BURNER_POWER_MODES: Final = {
-    1: "partial_load",    # Teillast
-    2: "full_load",       # Volllast
-    3: "max_heating_load", # Maximale Heizlast
+    1: "partial_load",  # Teillast
+    2: "full_load",  # Volllast
+    3: "max_heating_load",  # Maximale Heizlast
 }
 
 # Modbus register map from Brötje documentation
@@ -285,9 +285,7 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
-    
     # ===== TRINKWASSER (DHW - Domestic Hot Water) =====
-    
     # DHW Operating mode - Register 10240
     "dhw_operating_mode": {
         "address": 10240,
@@ -384,9 +382,7 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
-    
     # ===== TRINKWASSERSPEICHER (DHW Storage Tank) =====
-    
     # DHW Temperature 1 - Register 11264 (read-only)
     "dhw_tank_temp_1": {
         "address": 11264,
@@ -499,9 +495,7 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
-    
     # ===== PUFFERSPEICHER (Buffer Storage Tank) =====
-    
     # Buffer temperature 1 (B4) - Register 17410 (read-only)
     "buffer_temp_1": {
         "address": 17410,
@@ -558,9 +552,7 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
-    
     # ===== KESSEL (Boiler) =====
-    
     # Manual setpoint - Register 24576
     "boiler_manual_setpoint": {
         "address": 24576,
@@ -833,9 +825,7 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
-    
     # ===== ALLGEMEINE FUNKTIONEN (General Functions) =====
-    
     # Outdoor temperature - Register 35851 (read-only, signed)
     "outdoor_temperature": {
         "address": 35851,
@@ -1058,9 +1048,7 @@ SENSORS: Final = {
         "state_class": "measurement",
         "icon": "mdi:pump",
     },
-    
     # ===== DHW (Trinkwasser) Sensors =====
-    
     "dhw_operating_mode": {
         "register": "dhw_operating_mode",
         "translation_key": "dhw_operating_mode",
@@ -1157,9 +1145,7 @@ SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:information-outline",
     },
-    
     # ===== DHW Storage Tank (Trinkwasserspeicher) Sensors =====
-    
     "dhw_tank_temp_1": {
         "register": "dhw_tank_temp_1",
         "translation_key": "dhw_tank_temp_1",
@@ -1240,9 +1226,7 @@ SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
     },
-    
     # ===== Buffer Storage Tank (Pufferspeicher) Sensors =====
-    
     "buffer_temp_1": {
         "register": "buffer_temp_1",
         "translation_key": "buffer_temp_1",
@@ -1279,9 +1263,7 @@ SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
     },
-    
     # ===== Boiler (Kessel) Sensors =====
-    
     "boiler_manual_setpoint": {
         "register": "boiler_manual_setpoint",
         "translation_key": "boiler_manual_setpoint",
@@ -1517,9 +1499,7 @@ SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:fire-circle",
     },
-    
     # ===== General Functions (Allgemeine Funktionen) Sensors =====
-    
     "outdoor_temperature": {
         "register": "outdoor_temperature",
         "translation_key": "outdoor_temperature",
@@ -1575,9 +1555,7 @@ BINARY_SENSORS: Final = {
         "device_class": None,
         "icon": "mdi:valve-closed",
     },
-    
     # ===== DHW Storage Tank (Trinkwasserspeicher) Binary Sensors =====
-    
     "dhw_pump": {
         "register": "dhw_pump",
         "translation_key": "dhw_pump",
@@ -1593,9 +1571,7 @@ BINARY_SENSORS: Final = {
         "translation_key": "dhw_intermediate_pump",
         "device_class": "running",
     },
-    
     # ===== Buffer Storage Tank (Pufferspeicher) Binary Sensors =====
-    
     "buffer_generator_valve": {
         "register": "buffer_generator_valve",
         "translation_key": "buffer_generator_valve",
@@ -1608,9 +1584,7 @@ BINARY_SENSORS: Final = {
         "device_class": None,
         "icon": "mdi:valve",
     },
-    
     # ===== Boiler (Kessel) Binary Sensors =====
-    
     "boiler_ion_message": {
         "register": "boiler_ion_message",
         "translation_key": "boiler_ion_message",
@@ -1627,9 +1601,7 @@ BINARY_SENSORS: Final = {
         "device_class": None,
         "icon": "mdi:lock",
     },
-    
     # ===== General Functions (Allgemeine Funktionen) Binary Sensors =====
-    
     "alarm_relay_status": {
         "register": "alarm_relay_status",
         "translation_key": "alarm_relay_status",

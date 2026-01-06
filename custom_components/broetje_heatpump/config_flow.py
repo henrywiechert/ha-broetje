@@ -59,7 +59,9 @@ class BroetjeHeatpumpConfigFlow(ConfigFlow, domain=DOMAIN):
                 errors["base"] = "unknown"
             else:
                 # Generate unique ID from host (will be replaced with serial if available)
-                unique_id = f"broetje_{user_input[CONF_HOST]}_{user_input[CONF_UNIT_ID]}"
+                unique_id = (
+                    f"broetje_{user_input[CONF_HOST]}_{user_input[CONF_UNIT_ID]}"
+                )
                 await self.async_set_unique_id(unique_id)
                 self._abort_if_unique_id_configured()
 
@@ -79,17 +81,17 @@ class BroetjeHeatpumpConfigFlow(ConfigFlow, domain=DOMAIN):
         from pymodbus.client import AsyncModbusTcpClient
 
         client = AsyncModbusTcpClient(host=host, port=port)
-        
+
         try:
             _LOGGER.debug("Attempting to connect to %s:%s", host, port)
-            
+
             connected = await client.connect()
             if not connected:
                 _LOGGER.error("Failed to connect to %s:%s", host, port)
                 raise CannotConnect(f"Failed to connect to {host}:{port}")
-            
+
             _LOGGER.info("Connection test successful for %s:%s", host, port)
-                
+
         except OSError as err:
             _LOGGER.error("OS error during connection test: %s", err)
             raise CannotConnect(str(err)) from err
