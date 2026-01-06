@@ -489,6 +489,65 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
+    
+    # ===== PUFFERSPEICHER (Buffer Storage Tank) =====
+    
+    # Buffer temperature 1 (B4) - Register 17410 (read-only)
+    "buffer_temp_1": {
+        "address": 17410,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Buffer temperature 2 (B41) - Register 17412 (read-only)
+    "buffer_temp_2": {
+        "address": 17412,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Generator blocking valve Y4 state - Register 17458 (read-only)
+    "buffer_generator_valve": {
+        "address": 17458,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Buffer temperature 3 (B42) - Register 17463 (read-only)
+    "buffer_temp_3": {
+        "address": 17463,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Buffer status - Register 17465 (read-only)
+    "buffer_status": {
+        "address": 17465,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Buffer setpoint - Register 17466 (read-only)
+    "buffer_setpoint": {
+        "address": 17466,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": SCALE_TEMP,
+    },
+    # Buffer return valve Y15 state - Register 17468 (read-only)
+    "buffer_return_valve": {
+        "address": 17468,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
 }
 
 # Sensor definitions
@@ -829,6 +888,45 @@ SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
     },
+    
+    # ===== Buffer Storage Tank (Pufferspeicher) Sensors =====
+    
+    "buffer_temp_1": {
+        "register": "buffer_temp_1",
+        "translation_key": "buffer_temp_1",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "buffer_temp_2": {
+        "register": "buffer_temp_2",
+        "translation_key": "buffer_temp_2",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "buffer_temp_3": {
+        "register": "buffer_temp_3",
+        "translation_key": "buffer_temp_3",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "buffer_status": {
+        "register": "buffer_status",
+        "translation_key": "buffer_status",
+        "device_class": None,
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:information-outline",
+    },
+    "buffer_setpoint": {
+        "register": "buffer_setpoint",
+        "translation_key": "buffer_setpoint",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
 }
 
 # Binary sensor definitions
@@ -877,5 +975,20 @@ BINARY_SENSORS: Final = {
         "register": "dhw_intermediate_pump",
         "translation_key": "dhw_intermediate_pump",
         "device_class": "running",
+    },
+    
+    # ===== Buffer Storage Tank (Pufferspeicher) Binary Sensors =====
+    
+    "buffer_generator_valve": {
+        "register": "buffer_generator_valve",
+        "translation_key": "buffer_generator_valve",
+        "device_class": None,
+        "icon": "mdi:valve",
+    },
+    "buffer_return_valve": {
+        "register": "buffer_return_valve",
+        "translation_key": "buffer_return_valve",
+        "device_class": None,
+        "icon": "mdi:valve",
     },
 }

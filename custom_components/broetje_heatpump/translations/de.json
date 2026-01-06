@@ -187,6 +187,21 @@
       },
       "dhw_charging_temp": {
         "name": "TWW Ladetemperatur"
+      },
+      "buffer_temp_1": {
+        "name": "Puffertemperatur 1 (B4)"
+      },
+      "buffer_temp_2": {
+        "name": "Puffertemperatur 2 (B41)"
+      },
+      "buffer_temp_3": {
+        "name": "Puffertemperatur 3 (B42)"
+      },
+      "buffer_status": {
+        "name": "Status Pufferspeicher"
+      },
+      "buffer_setpoint": {
+        "name": "Pufferspeichersollwert"
       }
     },
     "binary_sensor": {
@@ -213,6 +228,12 @@
       },
       "dhw_intermediate_pump": {
         "name": "TWW Zw.kreispumpe Q33"
+      },
+      "buffer_generator_valve": {
+        "name": "Erzeugersperrventil Y4"
+      },
+      "buffer_return_valve": {
+        "name": "Puffer Rücklaufventil Y15"
       }
     }
   }

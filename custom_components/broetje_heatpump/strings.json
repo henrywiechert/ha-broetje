@@ -187,6 +187,21 @@
       },
       "dhw_charging_temp": {
         "name": "DHW Charging temperature"
+      },
+      "buffer_temp_1": {
+        "name": "Buffer temperature 1"
+      },
+      "buffer_temp_2": {
+        "name": "Buffer temperature 2"
+      },
+      "buffer_temp_3": {
+        "name": "Buffer temperature 3"
+      },
+      "buffer_status": {
+        "name": "Buffer status"
+      },
+      "buffer_setpoint": {
+        "name": "Buffer setpoint"
       }
     },
     "binary_sensor": {
@@ -213,6 +228,12 @@
       },
       "dhw_intermediate_pump": {
         "name": "DHW Intermediate circuit pump"
+      },
+      "buffer_generator_valve": {
+        "name": "Buffer generator blocking valve Y4"
+      },
+      "buffer_return_valve": {
+        "name": "Buffer return valve Y15"
       }
     }
   }

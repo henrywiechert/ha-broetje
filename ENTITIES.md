@@ -130,6 +130,25 @@ This document lists all entities provided by the Brötje Heatpump integration.
 | DHW Circulation pump | Circulation pump Q4 state | 11395 | 0=Off, 1=On |
 | DHW Intermediate pump | Intermediate circuit pump Q33 state | 11411 | 0=Off, 1=On |
 
+## Buffer Storage Tank (Pufferspeicher)
+
+### Sensors
+
+| Entity | Description | Register | Unit | R/W |
+|--------|-------------|----------|------|-----|
+| Buffer temperature 1 | Buffer tank temperature sensor 1 (B4) | 17410 | °C | R |
+| Buffer temperature 2 | Buffer tank temperature sensor 2 (B41) | 17412 | °C | R |
+| Buffer temperature 3 | Buffer tank temperature sensor 3 (B42) | 17463 | °C | R |
+| Buffer status | Buffer storage status code | 17465 | - | R |
+| Buffer setpoint | Buffer storage setpoint | 17466 | °C | R |
+
+### Binary Sensors
+
+| Entity | Description | Register | Values |
+|--------|-------------|----------|--------|
+| Buffer generator valve | Generator blocking valve Y4 (Erzeugersperrventil) | 17458 | 0=Off, 1=On |
+| Buffer return valve | Buffer return valve Y15 | 17468 | 0=Off, 1=On |
+
 ## Scale Factors
 
 The following scale factors are used to convert raw register values:
