@@ -1,10 +1,13 @@
 # Brötje Heatpump Integration for Home Assistant
 
+🇩🇪 [Deutsche Version](README.de.md)
+
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
+[![GitHub Release](https://img.shields.io/github/v/release/henrywiechert/ha-broetje)](https://github.com/henrywiechert/ha-broetje/releases)
 
 <img src="custom_components/broetje_heatpump/images/logo.png" alt="Brötje Logo" width="200">
 
-Home Assistant integration for Brötje heatpumps via Modbus TCP.
+Home Assistant integration for Brötje heatpumps (and other heating systems) via Modbus TCP.
 
 ## Supported Models
 
@@ -14,14 +17,26 @@ Home Assistant integration for Brötje heatpumps via Modbus TCP.
 
 *Other Brötje heatpumps with Modbus interface may also work.*
 
+
 ## Features
 
-- **Read-only monitoring** (v0.1)
-  - Heating circuit temperatures and setpoints
-  - Operating mode (Protection/Auto/Reduced/Comfort)
-  - Heating curve parameters
-  - Pump and mixer states
-  - Room temperature and setpoints
+- **Read-only monitoring** (v0.2)
+- **ca. 100 entities** across 6 categories
+- **German and English translations**
+- 30-second polling interval
+
+### Supported Categories
+
+| Category | Sensors | Binary Sensors | Description |
+|----------|---------|----------------|-------------|
+| **Heating Circuit 1** (Heizkreis 1) | 21 | 5 | Temperatures, setpoints, pump, mixer |
+| **DHW Settings** (Trinkwasser) | 12 | - | Operating mode, legionella, circulation |
+| **DHW Storage Tank** (Trinkwasserspeicher) | 11 | 3 | Tank temperatures, pumps |
+| **Buffer Storage** (Pufferspeicher) | 5 | 2 | Buffer temperatures, valves |
+| **Boiler** (Kessel) | 31 | 3 | Burner, fan, energy counters |
+| **General Functions** (Allgemein) | 3 | 4 | Outdoor temp, alarm, manual mode |
+
+> ⚠️ **Note:** Currently only **Heating Circuit 1 (Heizkreis 1)** is supported. Support for HC2/HC3 may be added in future versions.
 
 ## Requirements
 
@@ -37,7 +52,7 @@ Home Assistant integration for Brötje heatpumps via Modbus TCP.
 2. Click on "Integrations"
 3. Click the three dots in the top right corner
 4. Select "Custom repositories"
-5. Add this repository URL and select "Integration" as the category
+5. Add `https://github.com/henrywiechert/ha-broetje` and select "Integration" as the category
 6. Click "Add"
 7. Search for "Brötje Heatpump" and install it
 8. Restart Home Assistant
@@ -58,32 +73,37 @@ Home Assistant integration for Brötje heatpumps via Modbus TCP.
    - **Port**: Modbus TCP port (default: 502)
    - **Unit ID**: Modbus slave ID (default: 1)
 
-## Dashboard
+## Entities
 
-The integration automatically copies images to `/local/broetje_heatpump/` for use in your dashboard.
+See [ENTITIES.md](ENTITIES.md) for a complete list of all 100 entities with their Modbus register addresses and descriptions.
 
-### Picture Glance Card Example
+### Highlights
+
+
+- **Temperatures**: Flow, return, room, boiler, buffer, DHW
+- **Energy counters**: Gas consumption for heating and DHW (kWh)
+- **Operating hours**: Burner hours, heating hours, DHW hours
+- **Status information**: Boiler status, burner status, pump states
+- **Configuration**: Heating curve, setpoints, operating modes
+
+Not every sensor is available on every heating system! E.g. gas consumption on heat pumps :-)
+
+## Dashboard Example
 
 ```yaml
 type: picture-glance
 image: /local/broetje_heatpump/Broetje-BLW-Eco-10.1.png
 title: Brötje Wärmepumpe
 entities:
-  - entity: sensor.broetje_heatpump_hc1_flow_temperature
+  - entity: sensor.brotje_heatpump_hc1_flow_temperature
     name: Vorlauf
-  - entity: sensor.broetje_heatpump_hc1_room_temperature
-    name: Raum
-  - entity: binary_sensor.broetje_heatpump_hc1_pump
+  - entity: sensor.brotje_heatpump_kesseltemperatur
+    name: Kessel
+  - entity: sensor.brotje_heatpump_aussentemperatur
+    name: Außen
+  - entity: binary_sensor.brotje_heatpump_hc1_pump
     name: Pumpe
 ```
-
-## Entities
-
-See [ENTITIES.md](ENTITIES.md) for a complete list of all supported sensors and binary sensors with their Modbus register addresses.
-
-**Summary:**
-- 21 Sensors (temperatures, setpoints, operating mode, pump speed)
-- 5 Binary Sensors (pump, mixer, thermostat demand)
 
 ## Troubleshooting
 
@@ -101,9 +121,10 @@ See [ENTITIES.md](ENTITIES.md) for a complete list of all supported sensors and 
 
 ## Development
 
+
 This integration uses:
 
-- [pymodbus](https://pymodbus.readthedocs.io/) for Modbus TCP communication
+- [pymodbus](https://pymodbus.readthedocs.io/) ≥3.11.0 for Modbus TCP communication
 - Home Assistant's `DataUpdateCoordinator` for efficient polling
 
 ### Contributing
@@ -113,6 +134,15 @@ Contributions are welcome! Please:
 1. Fork the repository
 2. Create a feature branch
 3. Submit a pull request
+
+
+## Roadmap
+
+- [ ] Write support for R/W registers
+- [ ] Additional heating circuits (HC2, HC3)
+- [ ] Heatpump specific sensors
+- [ ] Error codes and diagnostics
+- [ ] Brötje logo in official HA brand repo
 
 ## License
 
