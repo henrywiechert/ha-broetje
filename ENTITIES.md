@@ -195,6 +195,33 @@ This document lists all entities provided by the Brötje Heatpump integration.
 | Boiler pump Q1 | Boiler pump state (Kesselpumpe Q1) | 24594 | 0=Off, 1=On |
 | Generator lock | Generator lock via H-contact (Erzeugersperre) | 24644 | 0=Off, 1=On |
 
+## General Functions (Allgemeine Funktionen)
+
+### Sensors
+
+| Entity | Description | Register | Unit | R/W |
+|--------|-------------|----------|------|-----|
+| Outdoor temperature | Outside air temperature (Außentemperatur) | 35851 | °C | R |
+| Burner power mode | Burner power mode (1=Partial/2=Full/3=Max) | 35903 | - | R/W |
+| Controller stop setpoint | Controller stop setpoint (Reglerstopp Sollwert) | 35906 | % | R/W |
+
+### Binary Sensors
+
+| Entity | Description | Register | Values |
+|--------|-------------|----------|--------|
+| Alarm relay status | Alarm relay state (Status Alarmrelais) | 35887 | 0=Off, 1=On |
+| Chimney sweep function | Chimney sweep function (Schornsteinfegerfunktion) | 35901 | 0=Off, 1=On |
+| Manual operation | Manual operation mode (Handbetrieb) | 35904 | 0=Off, 1=On |
+| Controller stop function | Controller stop function (Reglerstoppfunktion) | 35905 | 0=Off, 1=On |
+
+### Burner Power Modes (Brennerleistung)
+
+| Value | German | English |
+|-------|--------|---------|
+| 1 | Teillast | Partial load |
+| 2 | Volllast | Full load |
+| 3 | Maximale Heizlast | Maximum heating load |
+
 ## Scale Factors
 
 The following scale factors are used to convert raw register values:

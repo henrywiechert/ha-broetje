@@ -67,6 +67,13 @@ WEEKDAYS: Final = {
     7: "sunday",
 }
 
+# Burner power enumeration (Brennerleistung)
+BURNER_POWER_MODES: Final = {
+    1: "partial_load",    # Teillast
+    2: "full_load",       # Volllast
+    3: "max_heating_load", # Maximale Heizlast
+}
+
 # Modbus register map from Brötje documentation
 # Heizkreis 1 (Heating Circuit 1)
 REGISTER_MAP: Final = {
@@ -826,6 +833,73 @@ REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
+    
+    # ===== ALLGEMEINE FUNKTIONEN (General Functions) =====
+    
+    # Outdoor temperature - Register 35851 (read-only, signed)
+    "outdoor_temperature": {
+        "address": 35851,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "int16",
+        "scale": SCALE_TEMP,
+    },
+    # Reset alarm relay - Register 35862
+    "reset_alarm_relay": {
+        "address": 35862,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Alarm relay status - Register 35887 (read-only)
+    "alarm_relay_status": {
+        "address": 35887,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Chimney sweep function - Register 35901
+    "chimney_sweep_function": {
+        "address": 35901,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Burner power mode - Register 35903
+    "burner_power_mode": {
+        "address": 35903,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Manual operation - Register 35904
+    "manual_operation": {
+        "address": 35904,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Controller stop function - Register 35905
+    "controller_stop_function": {
+        "address": 35905,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # Controller stop setpoint - Register 35906
+    "controller_stop_setpoint": {
+        "address": 35906,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
 }
 
 # Sensor definitions
@@ -1443,6 +1517,33 @@ SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:fire-circle",
     },
+    
+    # ===== General Functions (Allgemeine Funktionen) Sensors =====
+    
+    "outdoor_temperature": {
+        "register": "outdoor_temperature",
+        "translation_key": "outdoor_temperature",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "burner_power_mode": {
+        "register": "burner_power_mode",
+        "translation_key": "burner_power_mode",
+        "device_class": "enum",
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:fire",
+        "enum_map": "burner_power_modes",
+    },
+    "controller_stop_setpoint": {
+        "register": "controller_stop_setpoint",
+        "translation_key": "controller_stop_setpoint",
+        "device_class": None,
+        "unit": "%",
+        "state_class": "measurement",
+        "icon": "mdi:gauge",
+    },
 }
 
 # Binary sensor definitions
@@ -1525,5 +1626,31 @@ BINARY_SENSORS: Final = {
         "translation_key": "boiler_generator_lock",
         "device_class": None,
         "icon": "mdi:lock",
+    },
+    
+    # ===== General Functions (Allgemeine Funktionen) Binary Sensors =====
+    
+    "alarm_relay_status": {
+        "register": "alarm_relay_status",
+        "translation_key": "alarm_relay_status",
+        "device_class": "problem",
+    },
+    "chimney_sweep_function": {
+        "register": "chimney_sweep_function",
+        "translation_key": "chimney_sweep_function",
+        "device_class": None,
+        "icon": "mdi:broom",
+    },
+    "manual_operation": {
+        "register": "manual_operation",
+        "translation_key": "manual_operation",
+        "device_class": None,
+        "icon": "mdi:hand-back-right",
+    },
+    "controller_stop_function": {
+        "register": "controller_stop_function",
+        "translation_key": "controller_stop_function",
+        "device_class": None,
+        "icon": "mdi:stop-circle",
     },
 }

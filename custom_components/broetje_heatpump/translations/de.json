@@ -295,6 +295,20 @@
       },
       "boiler_firing_phase": {
         "name": "Aktuelle Phase Feuerungsautomat"
+      },
+      "outdoor_temperature": {
+        "name": "Außentemperatur"
+      },
+      "burner_power_mode": {
+        "name": "Brennerleistung",
+        "state": {
+          "partial_load": "Teillast",
+          "full_load": "Volllast",
+          "max_heating_load": "Maximale Heizlast"
+        }
+      },
+      "controller_stop_setpoint": {
+        "name": "Reglerstopp Sollwert"
       }
     },
     "binary_sensor": {
@@ -336,6 +350,18 @@
       },
       "boiler_generator_lock": {
         "name": "Erzeugersperre via H-Kontakt"
+      },
+      "alarm_relay_status": {
+        "name": "Status Alarmrelais"
+      },
+      "chimney_sweep_function": {
+        "name": "Schornsteinfegerfunktion"
+      },
+      "manual_operation": {
+        "name": "Handbetrieb"
+      },
+      "controller_stop_function": {
+        "name": "Reglerstoppfunktion"
       }
     }
   }

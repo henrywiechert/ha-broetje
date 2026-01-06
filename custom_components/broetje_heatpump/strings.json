@@ -295,6 +295,20 @@
       },
       "boiler_firing_phase": {
         "name": "Firing automaton phase"
+      },
+      "outdoor_temperature": {
+        "name": "Outdoor temperature"
+      },
+      "burner_power_mode": {
+        "name": "Burner power mode",
+        "state": {
+          "partial_load": "Partial load",
+          "full_load": "Full load",
+          "max_heating_load": "Maximum heating load"
+        }
+      },
+      "controller_stop_setpoint": {
+        "name": "Controller stop setpoint"
       }
     },
     "binary_sensor": {
@@ -336,6 +350,18 @@
       },
       "boiler_generator_lock": {
         "name": "Generator lock via H-contact"
+      },
+      "alarm_relay_status": {
+        "name": "Alarm relay status"
+      },
+      "chimney_sweep_function": {
+        "name": "Chimney sweep function"
+      },
+      "manual_operation": {
+        "name": "Manual operation"
+      },
+      "controller_stop_function": {
+        "name": "Controller stop function"
       }
     }
   }

@@ -13,6 +13,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import (
+    BURNER_POWER_MODES,
     DHW_OPERATING_MODES,
     DHW_RELEASE_MODES,
     LEGIONELLA_MODES,
@@ -30,6 +31,7 @@ ENUM_MAPS = {
     "dhw_release_modes": DHW_RELEASE_MODES,
     "legionella_modes": LEGIONELLA_MODES,
     "weekdays": WEEKDAYS,
+    "burner_power_modes": BURNER_POWER_MODES,
 }
 
 # Map device class strings to actual classes
