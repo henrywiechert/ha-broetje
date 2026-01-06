@@ -79,29 +79,11 @@ entities:
 
 ## Entities
 
-### Sensors (Heating Circuit 1)
+See [ENTITIES.md](ENTITIES.md) for a complete list of all supported sensors and binary sensors with their Modbus register addresses.
 
-| Entity | Description | Unit |
-|--------|-------------|------|
-| HC1 Operating mode | Protection/Auto/Reduced/Comfort | - |
-| HC1 Flow temperature | Current flow temperature | °C |
-| HC1 Flow setpoint | Target flow temperature | °C |
-| HC1 Room temperature | Current room temperature | °C |
-| HC1 Room setpoint | Target room temperature | °C |
-| HC1 Comfort setpoint | Comfort mode setpoint | °C |
-| HC1 Reduced setpoint | Reduced mode setpoint | °C |
-| HC1 Heating curve slope | Heating curve steepness | - |
-| HC1 Heating curve offset | Heating curve shift | °C |
-| HC1 Pump speed | Current pump speed | % |
-
-### Binary Sensors
-
-| Entity | Description |
-|--------|-------------|
-| HC1 Enabled | Heating circuit active |
-| HC1 Pump | Circulation pump running |
-| HC1 Mixer open/close | Mixer valve state |
-| HC1 Room thermostat demand | Heat demand from thermostat |
+**Summary:**
+- 21 Sensors (temperatures, setpoints, operating mode, pump speed)
+- 5 Binary Sensors (pump, mixer, thermostat demand)
 
 ## Troubleshooting
 
