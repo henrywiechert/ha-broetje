@@ -95,18 +95,19 @@ class BroetjeSensor(BroetjeEntity, SensorEntity):
         self._register_key = sensor_config["register"]
         self._attr_translation_key = sensor_config.get("translation_key", entity_key)
 
+
+        self._attr_device_class = None
+        self._enum_map = None
+
         device_class = sensor_config.get("device_class")
-        
+
         if device_class == "enum":
             self._attr_device_class = SensorDeviceClass.ENUM
-
             enum_map_name = sensor_config.get("enum_map", "operating_modes")
             self._enum_map = ENUM_MAPS.get(enum_map_name, OPERATING_MODES)
             self._attr_options = list(self._enum_map.values())
-        else:
-            self._enum_map = None
-            if device_class:
-                self._attr_device_class = DEVICE_CLASS_MAP.get(device_class)
+        elif device_class:
+            self._attr_device_class = DEVICE_CLASS_MAP.get(device_class)
 
         # Set unit
         unit = sensor_config.get("unit")
