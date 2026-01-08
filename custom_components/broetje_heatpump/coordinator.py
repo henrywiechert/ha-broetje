@@ -178,6 +178,78 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         return needed_registers
 
+    def _group_registers_for_batch_read(
+        self, register_keys: set[str]
+    ) -> list[dict[str, Any]]:
+        """Group registers into batches for efficient reading.
+
+        Groups consecutive or near-consecutive registers to minimize
+        the number of Modbus read operations. Reading a few unused
+        registers between needed ones is much cheaper than making
+        separate Modbus requests.
+        """
+        if not register_keys:
+            return []
+
+        # Modbus limits: max 125 registers per read, we use 100 for safety
+        MAX_BATCH_SIZE = 100
+        # Max gap between registers to still batch them together
+        # Reading unused registers is cheap; extra round-trips are expensive
+        MAX_GAP = 50
+
+        # Build list of register info and sort by type, then address
+        registers: list[dict[str, Any]] = []
+        for key in register_keys:
+            config = REGISTER_MAP[key]
+            registers.append({
+                "key": key,
+                "address": config["address"],
+                "count": config.get("count", 1),
+                "type": config["type"],
+                "config": config,
+            })
+
+        # Sort by register type first (to group holding/input), then by address
+        registers.sort(key=lambda x: (x["type"], x["address"]))
+
+        # Group into batches
+        batches: list[dict[str, Any]] = []
+        current_batch: dict[str, Any] | None = None
+
+        for reg in registers:
+            reg_end = reg["address"] + reg["count"] - 1
+
+            if current_batch is None:
+                # Start new batch
+                current_batch = {
+                    "type": reg["type"],
+                    "start_address": reg["address"],
+                    "end_address": reg_end,
+                    "registers": [reg],
+                }
+            elif (
+                reg["type"] == current_batch["type"]
+                and reg["address"] <= current_batch["end_address"] + MAX_GAP + 1
+                and (reg_end - current_batch["start_address"] + 1) <= MAX_BATCH_SIZE
+            ):
+                # Add to current batch
+                current_batch["registers"].append(reg)
+                current_batch["end_address"] = max(current_batch["end_address"], reg_end)
+            else:
+                # Finish current batch and start new one
+                batches.append(current_batch)
+                current_batch = {
+                    "type": reg["type"],
+                    "start_address": reg["address"],
+                    "end_address": reg_end,
+                    "registers": [reg],
+                }
+
+        if current_batch:
+            batches.append(current_batch)
+
+        return batches
+
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from the Modbus device."""
         data: dict[str, Any] = {}
@@ -189,26 +261,55 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             _LOGGER.debug("No enabled entities, skipping Modbus read")
             return data
 
+        # Group registers into batches for efficient reading
+        batches = self._group_registers_for_batch_read(needed_registers)
+
         _LOGGER.debug(
-            "Reading %d registers for enabled entities (of %d total)",
+            "Reading %d registers in %d batch(es) for enabled entities",
             len(needed_registers),
-            len(REGISTER_MAP),
+            len(batches),
         )
 
         try:
-            async with asyncio.timeout(10):
-                for key in needed_registers:
-                    reg_config = REGISTER_MAP[key]
+            async with asyncio.timeout(30):
+                for batch in batches:
+                    start_addr = batch["start_address"]
+                    count = batch["end_address"] - start_addr + 1
+
+                    _LOGGER.debug(
+                        "Batch read: type=%s, address=%d, count=%d (%d registers)",
+                        batch["type"],
+                        start_addr,
+                        count,
+                        len(batch["registers"]),
+                    )
+
                     result = await self._read_registers(
-                        reg_config["address"],
-                        reg_config.get("count", 1),
-                        reg_config["type"],
+                        start_addr, count, batch["type"]
                     )
 
                     if result is not None:
-                        data[key] = self._process_register_value(result, reg_config)
+                        # Extract individual register values from batch response
+                        for reg in batch["registers"]:
+                            offset = reg["address"] - start_addr
+                            reg_count = reg["count"]
+                            reg_values = result[offset : offset + reg_count]
+
+                            if len(reg_values) == reg_count:
+                                data[reg["key"]] = self._process_register_value(
+                                    reg_values, reg["config"]
+                                )
+                            else:
+                                _LOGGER.warning(
+                                    "Incomplete data for register %s at address %d",
+                                    reg["key"],
+                                    reg["address"],
+                                )
+                                data[reg["key"]] = None
                     else:
-                        data[key] = None
+                        # Batch read failed, mark all registers in batch as None
+                        for reg in batch["registers"]:
+                            data[reg["key"]] = None
 
         except TimeoutError as err:
             raise UpdateFailed("Timeout communicating with device") from err
