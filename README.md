@@ -7,7 +7,7 @@
 
 <img src="custom_components/broetje_heatpump/images/logo.png" alt="Brötje Logo" width="200">
 
-Home Assistant integration for Brötje heatpumps (and other heating systems) via Modbus TCP.
+Home Assistant integration for Brötje heatpumps (and other heating systems) via Modbus TCP (ISR MBM, IWR under check)
 
 ## Supported Models
 
