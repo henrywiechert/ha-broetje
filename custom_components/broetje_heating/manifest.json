@@ -1,6 +1,6 @@
 {
-  "domain": "broetje_heatpump",
-  "name": "Brötje Heatpump",
+  "domain": "broetje_heating",
+  "name": "Brötje Heating Systems",
   "codeowners": [],
   "config_flow": true,
   "dependencies": [],

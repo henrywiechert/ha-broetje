@@ -1,4 +1,4 @@
-# Brötje Heatpump Integration for Home Assistant
+# Brötje Heating System Integration for Home Assistant
 
 🇩🇪 [Deutsche Version](README.de.md)
 
@@ -8,6 +8,9 @@
 <img src="custom_components/broetje_heatpump/images/logo.png" alt="Brötje Logo" width="200">
 
 Home Assistant integration for Brötje heatpumps (and other heating systems) via Modbus TCP (ISR MBM, IWR under check)
+
+Currently only the ISR controller (mainly for gas heating) is supported. IWR, used in heatpumps will follow. 
+In my tests so far, I had a ISR controller connected to the heatpump BLW Eco 10.1. It generally works, but misses a few heatpump specific measurements. IWR connection is going to come soon (GTW-08).
 
 ## Supported Models
 
@@ -23,8 +26,9 @@ Home Assistant integration for Brötje heatpumps (and other heating systems) via
 > **Note:** All information is derived from this Brötje document:
 [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040=6=pdf_(bdr_a4_manual)=de-de_ma_modbm.pdf)
 
+- **ISR module only**
 - **Read-only monitoring** (v0.2)
-- **ca. 100 entities** across 6 categories
+- **about 100 entities** across 6 categories
 - **German and English translations**
 - 30-second polling interval
 
