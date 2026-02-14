@@ -185,6 +185,13 @@ IWR_ERROR_SEVERITY: Final = {
     255: "no_error",
 }
 
+# Zone control mode (CP32X, Tab.36/42, registers 649 etc.)
+IWR_ZONE_CONTROL_MODE: Final = {
+    0: "scheduling",
+    1: "manual",
+    2: "off",
+}
+
 # Tab.19 - Algorithm type (register 258)
 IWR_ALGORITHM_TYPE: Final = {
     0: "remote_temp_and_power",
@@ -211,6 +218,7 @@ IWR_ENUM_MAPS: Final = {
     "iwr_error_severity": IWR_ERROR_SEVERITY,
     "iwr_algorithm_type": IWR_ALGORITHM_TYPE,
     "iwr_heat_demand_type": IWR_HEAT_DEMAND_TYPE,
+    "iwr_zone_control_mode": IWR_ZONE_CONTROL_MODE,
 }
 
 # ===== Zone Address Tables =====
@@ -218,7 +226,7 @@ IWR_ENUM_MAPS: Final = {
 # Zones 1-12 addresses for each register type.
 
 ZONE_ADDRESSES: Final = {
-    # Tab.33 - Main zone registers
+    # Tab.33 - Main zone registers (read-only)
     "CM040": [1100, 1612, 2124, 2636, 3148, 3660, 4172, 4684, 5196, 5708, 6220, 6732],
     "CM070": [1101, 1613, 2125, 2637, 3149, 3661, 4173, 4685, 5197, 5709, 6221, 6733],
     "CM190": [1102, 1614, 2126, 2638, 3150, 3662, 4174, 4686, 5198, 5710, 6222, 6734],
@@ -226,9 +234,20 @@ ZONE_ADDRESSES: Final = {
     "CM120": [1108, 1620, 2132, 2644, 3156, 3668, 5122, 5634, 6146, 6658, 7170, 7682],
     "CM050": [1110, 1622, 2134, 2646, 3158, 3670, 5124, 5636, 6148, 6660, 7172, 7684],
     "CM010": [1111, 1623, 2135, 2647, 3159, 3671, 5125, 5637, 6149, 6661, 7173, 7685],
-    # Tab.35 - Zone counter registers
+    # Tab.35 - Zone counter registers (read-only)
     "CC001": [1115, 1627, 2139, 2651, 3163, 3675, 4187, 4699, 5211, 5723, 6235, 6747],
     "CC010": [1117, 1629, 2141, 2652, 3165, 3677, 4189, 4771, 5213, 5725, 6237, 6749],
+    # Tab.36/42 - Zone control mode CP32X (R/W, base 649, +512/zone)
+    "CP32X": [649, 1161, 1673, 2185, 2697, 3209, 3721, 4233, 4745, 5257, 5769, 6281],
+    # Tab.37 - Zone fixed flow setpoint CP01X (R/W, base 648, +512/zone)
+    "CP01X": [648, 1160, 1672, 2184, 2696, 3208, 3720, 4232, 4744, 5256, 5768, 6280],
+    # Tab.43 - Zone room temp setpoint manual CP20X (R/W, base 664, +512/zone)
+    "CP20X": [664, 1176, 1688, 2200, 2712, 3224, 3736, 4248, 4760, 5272, 5784, 6296],
+    # Tab.39 - Heating curve gradient CP23X (R/W, base 674, +512/zone)
+    "CP23X": [674, 1186, 1698, 2210, 2722, 3234, 3746, 4258, 4770, 5282, 5794, 6306],
+    # Tab.40 - Heating curve footpoint CP21X (R/W, base 675, +512/zone)
+    # NOTE: PDF has typos for Z5 (2722) and Z8 (4258); corrected to 2723/4259.
+    "CP21X": [675, 1187, 1699, 2211, 2723, 3235, 3747, 4259, 4771, 5283, 5795, 6307],
 }
 
 # ===== Static Register Map (non-zone registers) =====
@@ -1467,6 +1486,46 @@ def _build_zone_registers(zone_count: int) -> dict[str, Any]:
             "data_type": "uint32",
             "scale": 1,
         }
+        # CP32X - Zone control mode (ENUM8, Tab.36/42)
+        registers[f"{prefix}_control_mode"] = {
+            "address": ZONE_ADDRESSES["CP32X"][z],
+            "type": REG_HOLDING,
+            "count": 1,
+            "data_type": "uint16",
+            "scale": 1,
+        }
+        # CP01X - Zone fixed flow setpoint (UINT16, 0.01°C, Tab.37)
+        registers[f"{prefix}_fixed_flow_setpoint"] = {
+            "address": ZONE_ADDRESSES["CP01X"][z],
+            "type": REG_HOLDING,
+            "count": 1,
+            "data_type": "uint16",
+            "scale": IWR_SCALE_TEMP,
+        }
+        # CP20X - Zone room temp setpoint manual (UINT16, 0.1°C, Tab.43)
+        registers[f"{prefix}_room_setpoint_manual"] = {
+            "address": ZONE_ADDRESSES["CP20X"][z],
+            "type": REG_HOLDING,
+            "count": 1,
+            "data_type": "uint16",
+            "scale": IWR_SCALE_ROOM_TEMP,
+        }
+        # CP23X - Heating curve gradient (UINT8, resolution 0.1, Tab.39)
+        registers[f"{prefix}_heating_curve_gradient"] = {
+            "address": ZONE_ADDRESSES["CP23X"][z],
+            "type": REG_HOLDING,
+            "count": 1,
+            "data_type": "uint16",
+            "scale": 0.1,
+        }
+        # CP21X - Heating curve footpoint (UINT16, 0.1°C, Tab.40)
+        registers[f"{prefix}_heating_curve_footpoint"] = {
+            "address": ZONE_ADDRESSES["CP21X"][z],
+            "type": REG_HOLDING,
+            "count": 1,
+            "data_type": "uint16",
+            "scale": IWR_SCALE_ROOM_TEMP,
+        }
 
     return registers
 
@@ -1538,6 +1597,50 @@ def _build_zone_sensors(zone_count: int) -> dict[str, Any]:
             "unit": None,
             "state_class": "total_increasing",
             "icon": "mdi:counter",
+            "zone_number": zn,
+        }
+        sensors[f"{prefix}_control_mode"] = {
+            "register": f"{prefix}_control_mode",
+            "translation_key": "zone_control_mode",
+            "device_class": "enum",
+            "unit": None,
+            "state_class": None,
+            "icon": "mdi:cog",
+            "enum_map": "iwr_zone_control_mode",
+            "zone_number": zn,
+        }
+        sensors[f"{prefix}_fixed_flow_setpoint"] = {
+            "register": f"{prefix}_fixed_flow_setpoint",
+            "translation_key": "zone_fixed_flow_setpoint",
+            "device_class": "temperature",
+            "unit": "°C",
+            "state_class": "measurement",
+            "zone_number": zn,
+        }
+        sensors[f"{prefix}_room_setpoint_manual"] = {
+            "register": f"{prefix}_room_setpoint_manual",
+            "translation_key": "zone_room_setpoint_manual",
+            "device_class": "temperature",
+            "unit": "°C",
+            "state_class": "measurement",
+            "zone_number": zn,
+        }
+        sensors[f"{prefix}_heating_curve_gradient"] = {
+            "register": f"{prefix}_heating_curve_gradient",
+            "translation_key": "zone_heating_curve_gradient",
+            "device_class": None,
+            "unit": None,
+            "state_class": "measurement",
+            "icon": "mdi:chart-line",
+            "zone_number": zn,
+        }
+        sensors[f"{prefix}_heating_curve_footpoint"] = {
+            "register": f"{prefix}_heating_curve_footpoint",
+            "translation_key": "zone_heating_curve_footpoint",
+            "device_class": "temperature",
+            "unit": "°C",
+            "state_class": "measurement",
+            "icon": "mdi:chart-line",
             "zone_number": zn,
         }
 

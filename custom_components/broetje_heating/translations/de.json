@@ -1235,6 +1235,26 @@
       },
       "zone_pump_starts": {
         "name": "Heizkreis {zone} Pumpenstarts"
+      },
+      "zone_control_mode": {
+        "name": "Heizkreis {zone} Steuerungsmodus",
+        "state": {
+          "scheduling": "Zeitprogramm",
+          "manual": "Manuell",
+          "off": "Aus"
+        }
+      },
+      "zone_fixed_flow_setpoint": {
+        "name": "Heizkreis {zone} Vorlaufsollwert (fest)"
+      },
+      "zone_room_setpoint_manual": {
+        "name": "Heizkreis {zone} Raumsollwert (manuell)"
+      },
+      "zone_heating_curve_gradient": {
+        "name": "Heizkreis {zone} Heizkurve Steilheit"
+      },
+      "zone_heating_curve_footpoint": {
+        "name": "Heizkreis {zone} Heizkurve Fußpunkt"
       }
     },
     "binary_sensor": {

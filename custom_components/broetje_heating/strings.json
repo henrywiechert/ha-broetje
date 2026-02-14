@@ -1235,6 +1235,26 @@
       },
       "zone_pump_starts": {
         "name": "Zone {zone} pump starts"
+      },
+      "zone_control_mode": {
+        "name": "Zone {zone} control mode",
+        "state": {
+          "scheduling": "Scheduling",
+          "manual": "Manual",
+          "off": "Off"
+        }
+      },
+      "zone_fixed_flow_setpoint": {
+        "name": "Zone {zone} fixed flow setpoint"
+      },
+      "zone_room_setpoint_manual": {
+        "name": "Zone {zone} room setpoint (manual)"
+      },
+      "zone_heating_curve_gradient": {
+        "name": "Zone {zone} heating curve gradient"
+      },
+      "zone_heating_curve_footpoint": {
+        "name": "Zone {zone} heating curve footpoint"
       }
     },
     "binary_sensor": {
