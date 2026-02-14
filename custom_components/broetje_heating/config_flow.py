@@ -31,9 +31,7 @@ STEP_CONNECTION_DATA_SCHEMA = vol.Schema(
 
 STEP_IWR_ZONES_SCHEMA = vol.Schema(
     {
-        vol.Required("zone_count", default=1): vol.All(
-            int, vol.Range(min=1, max=12)
-        ),
+        vol.Required("zone_count", default=1): vol.All(int, vol.Range(min=1, max=12)),
     }
 )
 

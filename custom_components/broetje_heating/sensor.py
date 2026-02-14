@@ -130,9 +130,10 @@ class BroetjeSensor(BroetjeEntity, SensorEntity):
         if value is None:
             return None
 
-        # Handle enum device class
+        # Handle enum device class - return None for unmapped values
+        # to avoid HA rejecting states not in the options list
         if self._attr_device_class == SensorDeviceClass.ENUM and self._enum_map:
-            return self._enum_map.get(int(value), f"unknown_{int(value)}")
+            return self._enum_map.get(int(value))
 
         # Round temperature values to 1 decimal
         if self._attr_device_class == SensorDeviceClass.TEMPERATURE:

@@ -182,6 +182,7 @@ IWR_ERROR_SEVERITY: Final = {
     0: "locking",
     3: "blocking",
     6: "warning",
+    255: "no_error",
 }
 
 # Collected enum maps for IWR device

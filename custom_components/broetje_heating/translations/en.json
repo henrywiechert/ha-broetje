@@ -1131,7 +1131,8 @@
         "state": {
           "locking": "Locking",
           "blocking": "Blocking",
-          "warning": "Warning"
+          "warning": "Warning",
+          "no_error": "No error"
         }
       },
       "board2_error_code": {
@@ -1142,7 +1143,8 @@
         "state": {
           "locking": "Locking",
           "blocking": "Blocking",
-          "warning": "Warning"
+          "warning": "Warning",
+          "no_error": "No error"
         }
       },
       "board3_error_code": {
@@ -1153,7 +1155,8 @@
         "state": {
           "locking": "Locking",
           "blocking": "Blocking",
-          "warning": "Warning"
+          "warning": "Warning",
+          "no_error": "No error"
         }
       },
       "board4_error_code": {
@@ -1164,7 +1167,8 @@
         "state": {
           "locking": "Locking",
           "blocking": "Blocking",
-          "warning": "Warning"
+          "warning": "Warning",
+          "no_error": "No error"
         }
       },
       "zone_flow_temp": {
