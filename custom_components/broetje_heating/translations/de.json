@@ -1072,6 +1072,12 @@
       "cop_threshold": {
         "name": "COP-Schwellenwert"
       },
+      "cascade_flow_temperature": {
+        "name": "Kaskade Vorlauftemperatur"
+      },
+      "cascade_return_temperature": {
+        "name": "Kaskade Rücklauftemperatur"
+      },
       "total_starts": {
         "name": "Erzeugerstarts gesamt"
       },

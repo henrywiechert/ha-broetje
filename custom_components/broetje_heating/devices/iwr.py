@@ -516,6 +516,21 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": IWR_SCALE_COP,
     },
+    # --- Cascade Flow/Return Temperature (Tab.23) ---
+    "cascade_flow_temperature": {
+        "address": 7101,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "int16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "cascade_return_temperature": {
+        "address": 7163,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "int16",
+        "scale": IWR_SCALE_TEMP,
+    },
     # --- Bitfield registers (Tab.13-15) ---
     # Register 275 bits (Tab.13 - Heat demand bitfield)
     "demand_direct_zones": {
@@ -959,6 +974,21 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "measurement",
         "icon": "mdi:chart-line",
+    },
+    # --- Cascade Flow/Return Temperature (Tab.23) ---
+    "cascade_flow_temperature": {
+        "register": "cascade_flow_temperature",
+        "translation_key": "cascade_flow_temperature",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "cascade_return_temperature": {
+        "register": "cascade_return_temperature",
+        "translation_key": "cascade_return_temperature",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
     },
     # --- Counters & Energy ---
     "total_starts": {

@@ -1072,6 +1072,12 @@
       "cop_threshold": {
         "name": "COP threshold"
       },
+      "cascade_flow_temperature": {
+        "name": "Cascade flow temperature"
+      },
+      "cascade_return_temperature": {
+        "name": "Cascade return temperature"
+      },
       "total_starts": {
         "name": "Total starts"
       },
