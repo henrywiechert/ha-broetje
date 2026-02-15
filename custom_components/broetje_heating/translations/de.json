@@ -899,6 +899,12 @@
       "system_power": {
         "name": "Systemleistung"
       },
+      "cu_flow_temperature": {
+        "name": "Vorlauftemperatur (CU)"
+      },
+      "cu_return_temperature": {
+        "name": "Rücklauftemperatur (CU)"
+      },
       "outside_temperature": {
         "name": "Außentemperatur"
       },
@@ -942,11 +948,23 @@
       "hp_return_temperature": {
         "name": "Rücklauftemperatur Wärmepumpe"
       },
+      "internal_dhw_setpoint": {
+        "name": "Interner TWW-Sollwert"
+      },
+      "ch_setpoint": {
+        "name": "Heizungssollwert"
+      },
+      "cooling_setpoint": {
+        "name": "Kühlsollwert Vorlauftemperatur"
+      },
       "dhw_flow_setpoint": {
         "name": "Vorlauftemperatur-Sollwert TWW"
       },
       "water_pressure": {
         "name": "Wasserdruck"
+      },
+      "flow_rate": {
+        "name": "Durchfluss"
       },
       "main_status": {
         "name": "Hauptstatus",
@@ -1075,6 +1093,9 @@
       },
       "relative_power": {
         "name": "Relative Leistung"
+      },
+      "power_setpoint": {
+        "name": "Leistungssollwert"
       },
       "ionization_current": {
         "name": "Ionisationsstrom"

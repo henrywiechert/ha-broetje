@@ -348,6 +348,21 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "data_type": "uint16",
         "scale": 1,
     },
+    # --- Received Temperatures from CU (from German spec 7740782-01) ---
+    "cu_flow_temperature": {
+        "address": 273,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "int16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "cu_return_temperature": {
+        "address": 274,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "int16",
+        "scale": IWR_SCALE_TEMP,
+    },
     "error_list": {
         "address": 277,
         "type": REG_HOLDING,
@@ -433,6 +448,28 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "data_type": "int16",
         "scale": IWR_SCALE_TEMP,
     },
+    # --- Internal Setpoints (from German spec 7740782-01) ---
+    "internal_dhw_setpoint": {
+        "address": 405,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "ch_setpoint": {
+        "address": 406,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "cooling_setpoint": {
+        "address": 407,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_TEMP,
+    },
     "dhw_flow_setpoint": {
         "address": 408,
         "type": REG_HOLDING,
@@ -446,6 +483,13 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "count": 1,
         "data_type": "uint16",
         "scale": IWR_SCALE_PRESSURE,
+    },
+    "flow_rate": {
+        "address": 410,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_TEMP,  # 0.01 l/min
     },
     "main_status": {
         "address": 411,
@@ -467,6 +511,13 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "count": 1,
         "data_type": "uint16",
         "scale": 1,
+    },
+    "power_setpoint": {
+        "address": 414,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_PUMP,  # 0.1%
     },
     "ionization_current": {
         "address": 415,
@@ -989,6 +1040,21 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": "measurement",
         "icon": "mdi:gauge",
     },
+    # --- Received Temperatures from CU (from German spec 7740782-01) ---
+    "cu_flow_temperature": {
+        "register": "cu_flow_temperature",
+        "translation_key": "cu_flow_temperature",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
+    "cu_return_temperature": {
+        "register": "cu_return_temperature",
+        "translation_key": "cu_return_temperature",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+    },
     "outside_temperature": {
         "register": "outside_temperature",
         "translation_key": "outside_temperature",
@@ -1074,6 +1140,31 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
     },
+    # --- Internal Setpoints (from German spec 7740782-01) ---
+    "internal_dhw_setpoint": {
+        "register": "internal_dhw_setpoint",
+        "translation_key": "internal_dhw_setpoint",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+        "icon": "mdi:water-thermometer",
+    },
+    "ch_setpoint": {
+        "register": "ch_setpoint",
+        "translation_key": "ch_setpoint",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+        "icon": "mdi:thermostat",
+    },
+    "cooling_setpoint": {
+        "register": "cooling_setpoint",
+        "translation_key": "cooling_setpoint",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+        "icon": "mdi:snowflake-thermometer",
+    },
     "dhw_flow_setpoint": {
         "register": "dhw_flow_setpoint",
         "translation_key": "dhw_flow_setpoint",
@@ -1087,6 +1178,14 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "pressure",
         "unit": "bar",
         "state_class": "measurement",
+    },
+    "flow_rate": {
+        "register": "flow_rate",
+        "translation_key": "flow_rate",
+        "device_class": None,
+        "unit": "l/min",
+        "state_class": "measurement",
+        "icon": "mdi:water-pump",
     },
     "main_status": {
         "register": "main_status",
@@ -1109,6 +1208,14 @@ _IWR_STATIC_SENSORS: Final = {
     "relative_power": {
         "register": "relative_power",
         "translation_key": "relative_power",
+        "device_class": None,
+        "unit": "%",
+        "state_class": "measurement",
+        "icon": "mdi:gauge",
+    },
+    "power_setpoint": {
+        "register": "power_setpoint",
+        "translation_key": "power_setpoint",
         "device_class": None,
         "unit": "%",
         "state_class": "measurement",

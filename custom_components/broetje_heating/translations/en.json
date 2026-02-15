@@ -899,6 +899,12 @@
       "system_power": {
         "name": "System power"
       },
+      "cu_flow_temperature": {
+        "name": "Flow temperature (CU)"
+      },
+      "cu_return_temperature": {
+        "name": "Return temperature (CU)"
+      },
       "outside_temperature": {
         "name": "Outside temperature"
       },
@@ -942,11 +948,23 @@
       "hp_return_temperature": {
         "name": "Heat pump return temperature"
       },
+      "internal_dhw_setpoint": {
+        "name": "Internal DHW setpoint"
+      },
+      "ch_setpoint": {
+        "name": "CH system setpoint"
+      },
+      "cooling_setpoint": {
+        "name": "Cooling flow setpoint"
+      },
       "dhw_flow_setpoint": {
         "name": "DHW flow setpoint"
       },
       "water_pressure": {
         "name": "Water pressure"
+      },
+      "flow_rate": {
+        "name": "Flow rate"
       },
       "main_status": {
         "name": "Main status",
@@ -1075,6 +1093,9 @@
       },
       "relative_power": {
         "name": "Relative power"
+      },
+      "power_setpoint": {
+        "name": "Power setpoint"
       },
       "ionization_current": {
         "name": "Ionization current"
