@@ -84,7 +84,7 @@ class BroetjeHeatpumpConfigFlow(ConfigFlow, domain=DOMAIN):
         config_entry: ConfigEntry,
     ) -> BroetjeOptionsFlow:
         """Get the options flow handler."""
-        return BroetjeOptionsFlow(config_entry)
+        return BroetjeOptionsFlow()
 
     def __init__(self) -> None:
         """Initialize the flow."""
