@@ -236,6 +236,19 @@ IWR_HEAT_DEMAND_TYPE: Final = {
     8: "cooling",
 }
 
+# Generic on/off enum (registers 389, 500, 501, 503)
+IWR_ON_OFF: Final = {
+    0: "off",
+    1: "on",
+}
+
+# Cooling enabled mode (register 502)
+IWR_COOLING_ENABLED: Final = {
+    0: "off",
+    1: "active_cooling",
+    2: "free_cooling",
+}
+
 # Collected enum maps for IWR device
 IWR_ENUM_MAPS: Final = {
     "iwr_main_status": IWR_MAIN_STATUS,
@@ -249,6 +262,8 @@ IWR_ENUM_MAPS: Final = {
     "iwr_heat_demand_type": IWR_HEAT_DEMAND_TYPE,
     "iwr_zone_control_mode": IWR_ZONE_CONTROL_MODE,
     "iwr_zone_function": IWR_ZONE_FUNCTION,
+    "iwr_on_off": IWR_ON_OFF,
+    "iwr_cooling_enabled": IWR_COOLING_ENABLED,
 }
 
 # ===== Zone Address Tables =====
@@ -348,6 +363,35 @@ _IWR_STATIC_REGISTER_MAP: Final = {
     },
     "seasonal_mode": {
         "address": 385,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    # --- Appliance Parameters (from German spec 7740782-01) ---
+    "summer_winter_threshold": {
+        "address": 386,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "neutral_band": {
+        "address": 387,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "frost_protection_threshold": {
+        "address": 388,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "int16",
+        "scale": IWR_SCALE_TEMP,
+    },
+    "force_summer_mode": {
+        "address": 389,
         "type": REG_HOLDING,
         "count": 1,
         "data_type": "uint16",
@@ -750,6 +794,35 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "data_type": "bool",
         "bit": 6,
     },
+    # --- Appliance Enable/Disable (from German spec 7740782-01) ---
+    "ch_enabled": {
+        "address": 500,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    "dhw_enabled": {
+        "address": 501,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    "cooling_enabled": {
+        "address": 502,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
+    "cooling_forced": {
+        "address": 503,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": 1,
+    },
     # --- Service registers (Tab.50) ---
     "service_required": {
         "address": 512,
@@ -930,6 +1003,40 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:weather-partly-cloudy",
         "enum_map": "iwr_seasonal_mode",
+    },
+    # --- Appliance Parameters (from German spec 7740782-01) ---
+    "summer_winter_threshold": {
+        "register": "summer_winter_threshold",
+        "translation_key": "summer_winter_threshold",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+        "icon": "mdi:thermometer-lines",
+    },
+    "neutral_band": {
+        "register": "neutral_band",
+        "translation_key": "neutral_band",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+        "icon": "mdi:thermometer-lines",
+    },
+    "frost_protection_threshold": {
+        "register": "frost_protection_threshold",
+        "translation_key": "frost_protection_threshold",
+        "device_class": "temperature",
+        "unit": "°C",
+        "state_class": "measurement",
+        "icon": "mdi:snowflake-thermometer",
+    },
+    "force_summer_mode": {
+        "register": "force_summer_mode",
+        "translation_key": "force_summer_mode",
+        "device_class": "enum",
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:weather-sunny",
+        "enum_map": "iwr_on_off",
     },
     "flow_temperature": {
         "register": "flow_temperature",
@@ -1186,6 +1293,43 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+    },
+    # --- Appliance Enable/Disable (from German spec 7740782-01) ---
+    "ch_enabled": {
+        "register": "ch_enabled",
+        "translation_key": "ch_enabled",
+        "device_class": "enum",
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:radiator",
+        "enum_map": "iwr_on_off",
+    },
+    "dhw_enabled": {
+        "register": "dhw_enabled",
+        "translation_key": "dhw_enabled",
+        "device_class": "enum",
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:water-boiler",
+        "enum_map": "iwr_on_off",
+    },
+    "cooling_enabled": {
+        "register": "cooling_enabled",
+        "translation_key": "cooling_enabled",
+        "device_class": "enum",
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:snowflake",
+        "enum_map": "iwr_cooling_enabled",
+    },
+    "cooling_forced": {
+        "register": "cooling_forced",
+        "translation_key": "cooling_forced",
+        "device_class": "enum",
+        "unit": None,
+        "state_class": None,
+        "icon": "mdi:snowflake-alert",
+        "enum_map": "iwr_on_off",
     },
     # --- Service sensors ---
     "service_notification": {

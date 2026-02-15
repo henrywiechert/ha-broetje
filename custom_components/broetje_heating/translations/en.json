@@ -911,6 +911,22 @@
           "summer": "Summer"
         }
       },
+      "summer_winter_threshold": {
+        "name": "Summer/winter switchover temperature"
+      },
+      "neutral_band": {
+        "name": "Neutral band summer/winter"
+      },
+      "frost_protection_threshold": {
+        "name": "Frost protection outdoor temperature"
+      },
+      "force_summer_mode": {
+        "name": "Force summer mode",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
       "flow_temperature": {
         "name": "Flow temperature"
       },
@@ -1131,6 +1147,35 @@
       },
       "energy_delivered_backup": {
         "name": "Energy delivered backup"
+      },
+      "ch_enabled": {
+        "name": "Central heating enabled",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "dhw_enabled": {
+        "name": "DHW enabled",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
+      },
+      "cooling_enabled": {
+        "name": "Cooling enabled",
+        "state": {
+          "off": "Off",
+          "active_cooling": "Active cooling",
+          "free_cooling": "Free cooling"
+        }
+      },
+      "cooling_forced": {
+        "name": "Cooling forced",
+        "state": {
+          "off": "Off",
+          "on": "On"
+        }
       },
       "service_notification": {
         "name": "Service notification",

@@ -911,6 +911,22 @@
           "summer": "Sommer"
         }
       },
+      "summer_winter_threshold": {
+        "name": "Sommer/Winter-Umschalttemperatur"
+      },
+      "neutral_band": {
+        "name": "Neutralband Sommer/Winter"
+      },
+      "frost_protection_threshold": {
+        "name": "Frostschutz-Außentemperatur"
+      },
+      "force_summer_mode": {
+        "name": "Sommerbetrieb erzwingen",
+        "state": {
+          "off": "Aus",
+          "on": "Ein"
+        }
+      },
       "flow_temperature": {
         "name": "Vorlauftemperatur"
       },
@@ -1131,6 +1147,35 @@
       },
       "energy_delivered_backup": {
         "name": "Gelieferte Energie Zusatzerzeuger"
+      },
+      "ch_enabled": {
+        "name": "Heizung erlaubt",
+        "state": {
+          "off": "Aus",
+          "on": "Ein"
+        }
+      },
+      "dhw_enabled": {
+        "name": "Warmwasserbereitung erlaubt",
+        "state": {
+          "off": "Aus",
+          "on": "Ein"
+        }
+      },
+      "cooling_enabled": {
+        "name": "Kühlung erlaubt",
+        "state": {
+          "off": "Aus",
+          "active_cooling": "Aktive Kühlung",
+          "free_cooling": "Freie Kühlung"
+        }
+      },
+      "cooling_forced": {
+        "name": "Kühlung erzwingen",
+        "state": {
+          "off": "Aus",
+          "on": "Ein"
+        }
       },
       "service_notification": {
         "name": "Wartungsmeldung",
