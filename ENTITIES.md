@@ -242,10 +242,13 @@ Entity IDs follow the pattern:
 
 Example: `sensor.broetje_heatpump_hc1_flow_temperature`
 
+## IWR Entity Reference
+
+For IWR/GTW-08 entities, see [`register_map.csv`](register_map.csv) for a comprehensive register map including all 885 registers with addresses, data types, descriptions (EN/DE), units, scaling factors, and categories.
+
 ## Future Entities
 
 The following entities are planned for future versions:
 
-- Heatpump specific sensors (compressor, outdoor unit)
-- Additional heating circuits (HC2, HC3)
-- Error codes and diagnostics
+- Additional heating circuits for ISR (HC2, HC3)
+- Write support for R/W registers

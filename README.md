@@ -5,7 +5,7 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 [![GitHub Release](https://img.shields.io/github/v/release/henrywiechert/ha-broetje)](https://github.com/henrywiechert/ha-broetje/releases)
 
-<img src="custom_components/broetje_heatpump/images/logo.png" alt="Brötje Logo" width="200">
+<img src="custom_components/broetje_heating/images/logo.png" alt="Brötje Logo" width="200">
 
 Home Assistant integration for Brötje heating systems via Modbus TCP, supporting both the **IWR/GTW-08** gateway (heat pumps) and the **ISR Plus** module (gas boilers and older systems).
 
@@ -30,7 +30,9 @@ The IWR/GTW-08 is the current-generation Modbus gateway used by Brötje heat pum
 - Bitfield-based status indicators (flame, heat pump, backup heaters, valves)
 - Service and error diagnostics per board
 
-Register specification: GTW-08 Modbus (7854678 - v.01)
+Register specifications:
+- GTW-08 Modbus (7854678 - v.01) — English
+- Modbus GTW-08 Parameter List (7740782-01) — German
 
 ### ISR Plus (Legacy Module)
 
@@ -46,7 +48,7 @@ Register specification: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040
 
 ## Supported Models
 
-<img src="custom_components/broetje_heatpump/images/Broetje-BLW-Eco-10.1.png" alt="Brötje BLW Eco" width="300">
+<img src="custom_components/broetje_heating/images/Broetje-BLW-Eco-10.1.png" alt="Brötje BLW Eco" width="300">
 
 **Brötje BLW Eco 10.1** (tested with ISR and IWR)
 
@@ -57,12 +59,12 @@ Register specification: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040
 - **Two module types**: IWR/GTW-08 and ISR Plus, selectable during setup
 - **Parallel operation**: Both modules can run side by side for different appliances
 - **Read-only monitoring**
-- **IWR**: ~80+ entities (main appliance, zones, service, error diagnostics)
-- **ISR**: >200 entities across 6 categories
+- **IWR**: ~213 entities (1 zone) up to ~884 entities (12 zones) — main appliance, zone parameters & measurements, device info, service, error diagnostics
+- **ISR**: 117 entities (100 sensors + 17 binary sensors) across 6 categories
 - **Configurable zones** (IWR): 1–12 zones selectable during setup
+- **Configurable scan interval**: Adjustable polling interval via integration options (default: 120 seconds)
 - **German and English translations**
 - **Sentinel value filtering**: Invalid Modbus readings (0xFFFF, 0xFFFFFFFF) are shown as "Unavailable" instead of bogus numbers
-- configurable polling interval (global)
 
 ### ISR Categories
 
@@ -79,15 +81,22 @@ Register specification: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040
 
 ### IWR Categories
 
-| Category | Sensors | Binary Sensors | Description |
-|----------|---------|----------------|-------------|
-| **Main Appliance** | ~25 | 7 | Temperatures, pressures, status, power, COP |
-| **Output Status** | - | 7 | Pump, valves, DHW/CH/cooling active |
-| **Heat Demand** | - | 7 | Zone demand, cooling, DHW, manual heat |
-| **Energy & Counters** | ~20 | - | Consumed/delivered kWh, starts, hours |
-| **Zone** (per zone) | 7 | 2 | Flow temp, setpoint, activity, pump |
-| **Service** | 4 | 1 | Service notification, hours/starts since service |
-| **Error Diagnostics** | ~9 | 1 | Per-board error codes and severity |
+| Category | Registers | Description |
+|----------|-----------|-------------|
+| **Appliance - Measurements** | 26 | Temperatures, pressures, status, power |
+| **Appliance - Temperatures** | 6 | Flow, return, internal setpoints |
+| **Appliance - Control** | 4 | Summer/winter threshold, frost protection, force modes |
+| **Appliance - Efficiency** | 2 | COP monitoring |
+| **Appliance** | 9 | Enable/disable CH, DHW, cooling |
+| **Main Controller Monitoring** | 30 | Status bits, output status, heat demand, energy counters |
+| **Zones - Parameters** (per zone) | 44 | Setpoints, heating curves, control strategy, time programs |
+| **Zones - Measurements** (per zone) | 17 | Outside/room/flow temperatures, heat demand, valve, pump |
+| **Device Information** | 1 | Gateway device type |
+| **System Discovery** | 59 | Connected boards, device types, software versions, article numbers |
+| **Service** | 14 | Service notifications, hours/starts since service, per-board errors |
+| **Cascade** | 2 | Cascade status |
+
+> Entity counts scale with the number of configured zones: ~213 entities for 1 zone, up to ~884 for 12 zones.
 
 ## Requirements
 
@@ -128,9 +137,17 @@ Register specification: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040
 
 To add a second module (e.g., both ISR and IWR), simply add the integration again and select the other module type.
 
+### Options
+
+After setup, click the **Configure** (gear icon) button on the integration entry to adjust:
+
+- **Scan interval**: How often the integration polls the Modbus device (default: 120 seconds, range: 10–3600). Changes take effect immediately without restart.
+
 ## Entities
 
 See [ENTITIES.md](ENTITIES.md) for a complete list of ISR entities with their Modbus register addresses and descriptions.
+
+For IWR entities, see [`register_map.csv`](register_map.csv) for a comprehensive register map including addresses, data types, descriptions (EN/DE), units, scaling factors, and categories.
 
 ### Highlights
 
@@ -194,7 +211,7 @@ Contributions are welcome! Please:
 
 - [ ] Write support for R/W registers
 - [ ] Additional heating circuits for ISR (HC2, HC3)
-- [ ] Brötje logo in official HA brand repo
+- [X] Brötje logo in official HA brand repo
 
 ## License
 
