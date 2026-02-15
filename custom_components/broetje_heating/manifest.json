@@ -9,5 +9,5 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/",
   "requirements": ["pymodbus>=3.11.0"],
-  "version": "v0.4.0"
+  "version": "v0.4.2"
 }
