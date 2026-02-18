@@ -270,6 +270,9 @@ class BroetjeOptionsFlow(OptionsFlow):
         zones = _parse_zone_selection(user_input)
         new_data = {**self.config_entry.data, "zones": zones}
         self.hass.config_entries.async_update_entry(self.config_entry, data=new_data)
+        self.hass.async_create_task(
+            self.hass.config_entries.async_reload(self.config_entry.entry_id)
+        )
         return self.async_create_entry(data=self.config_entry.options)
 
 
