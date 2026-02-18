@@ -80,6 +80,11 @@ async def detect_zones(client: Any, unit_id: int) -> list[dict[str, Any]]:
 
     Returns list of 12 dicts with keys: zone, zone_type, zone_function, active, label.
     """
+    _LOGGER.debug(
+        "Starting zone detection for unit_id=%d, client connected=%s",
+        unit_id,
+        getattr(client, "connected", "unknown"),
+    )
     results: list[dict[str, Any]] = []
     for z in range(12):
         zn = z + 1
@@ -93,18 +98,33 @@ async def detect_zones(client: Any, unit_id: int) -> list[dict[str, Any]]:
             type_result = await client.read_holding_registers(
                 address=type_addr, count=1, device_id=unit_id
             )
-            if not type_result.isError():
+            if type_result.isError():
+                _LOGGER.warning(
+                    "Zone %d: zone_type read error at addr %d: %s",
+                    zn,
+                    type_addr,
+                    type_result,
+                )
+            else:
                 zone_type = type_result.registers[0]
 
             func_result = await client.read_holding_registers(
                 address=func_addr, count=1, device_id=unit_id
             )
-            if not func_result.isError():
+            if func_result.isError():
+                _LOGGER.warning(
+                    "Zone %d: zone_function read error at addr %d: %s",
+                    zn,
+                    func_addr,
+                    func_result,
+                )
+            else:
                 zone_function = func_result.registers[0]
         except Exception:
-            _LOGGER.debug("Failed to read zone %d registers", zn)
+            _LOGGER.exception("Zone %d: exception reading registers", zn)
 
-        active = zone_type != 0 and zone_function != 0
+        _LOGGER.debug("Zone %d: type=%d, function=%d", zn, zone_type, zone_function)
+        active = zone_type != 0
         type_label = _ZONE_TYPE_LABELS.get(zone_type, f"type {zone_type}")
         func_label = _ZONE_FUNCTION_LABELS.get(zone_function, f"func {zone_function}")
 
@@ -358,7 +378,9 @@ class BroetjeHeatpumpConfigFlow(ConfigFlow, domain=DOMAIN):
             port=self._connection_data[CONF_PORT],
         )
         try:
-            await client.connect()
+            connected = await client.connect()
+            if not connected:
+                _LOGGER.error("Zone detection: failed to connect to Modbus device")
             zone_info = await detect_zones(client, self._connection_data[CONF_UNIT_ID])
         finally:
             client.close()
