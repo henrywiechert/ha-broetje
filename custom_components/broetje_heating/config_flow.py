@@ -123,7 +123,14 @@ async def detect_zones(client: Any, unit_id: int) -> list[dict[str, Any]]:
         except Exception:
             _LOGGER.exception("Zone %d: exception reading registers", zn)
 
-        _LOGGER.debug("Zone %d: type=%d, function=%d", zn, zone_type, zone_function)
+        _LOGGER.warning(
+            "Zone detect: zone %d addr=%d/%d => type=%d, function=%d",
+            zn,
+            type_addr,
+            func_addr,
+            zone_type,
+            zone_function,
+        )
         active = zone_type != 0
         type_label = _ZONE_TYPE_LABELS.get(zone_type, f"type {zone_type}")
         func_label = _ZONE_FUNCTION_LABELS.get(zone_function, f"func {zone_function}")
