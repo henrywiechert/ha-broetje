@@ -9,6 +9,10 @@ from typing import Any, Final
 
 from ..const import REG_HOLDING
 
+ZONE_ADDR_OFFSET: Final = 512
+ZONE_TYPE_BASE_ADDR: Final = 640
+ZONE_FUNCTION_BASE_ADDR: Final = 641
+
 # Entity classification: (entity_category, entity_registry_enabled_default)
 #   entity_category: None = primary, "diagnostic" = diagnostic
 #   entity_registry_enabled_default: True = enabled, False = disabled by default
@@ -2055,14 +2059,14 @@ _IWR_STATIC_BINARY_SENSORS: Final = {
 
 def _zone_addr(base: int, zone_idx: int) -> int:
     """Compute zone register address. base is zone-1 address, zone_idx is 0-based."""
-    return base + 512 * zone_idx
+    return base + ZONE_ADDR_OFFSET * zone_idx
 
 
-def _build_zone_registers(zone_count: int) -> dict[str, Any]:
-    """Generate register map entries for zones 1..zone_count."""
+def _build_zone_registers(zones: list[int]) -> dict[str, Any]:
+    """Generate register map entries for the given zone numbers (1-based)."""
     registers: dict[str, Any] = {}
-    for z in range(zone_count):
-        zn = z + 1  # 1-based zone number
+    for zn in zones:
+        z = zn - 1  # 0-based index for address lookup
         prefix = f"zone{zn}"
 
         # CM040 - Zone flow temperature (INT16, 0.01°C)
@@ -2495,11 +2499,10 @@ def _build_zone_registers(zone_count: int) -> dict[str, Any]:
     return registers
 
 
-def _build_zone_sensors(zone_count: int) -> dict[str, Any]:
-    """Generate sensor definitions for zones 1..zone_count."""
+def _build_zone_sensors(zones: list[int]) -> dict[str, Any]:
+    """Generate sensor definitions for the given zone numbers (1-based)."""
     sensors: dict[str, Any] = {}
-    for z in range(zone_count):
-        zn = z + 1
+    for zn in zones:
         prefix = f"zone{zn}"
 
         sensors[f"{prefix}_flow_temp"] = {
@@ -2941,11 +2944,10 @@ def _build_zone_sensors(zone_count: int) -> dict[str, Any]:
     return sensors
 
 
-def _build_zone_binary_sensors(zone_count: int) -> dict[str, Any]:
-    """Generate binary sensor definitions for zones 1..zone_count."""
+def _build_zone_binary_sensors(zones: list[int]) -> dict[str, Any]:
+    """Generate binary sensor definitions for the given zone numbers (1-based)."""
     binary_sensors: dict[str, Any] = {}
-    for z in range(zone_count):
-        zn = z + 1
+    for zn in zones:
         prefix = f"zone{zn}"
 
         binary_sensors[f"{prefix}_pump"] = {
@@ -3136,22 +3138,24 @@ def _build_entity_classification(
     return classification
 
 
-def get_iwr_device_config(zone_count: int = 1) -> dict[str, Any]:
-    """Build the complete IWR device config with the given number of zones."""
+def get_iwr_device_config(zones: list[int] | None = None) -> dict[str, Any]:
+    """Build the complete IWR device config for the given zone numbers (1-based)."""
+    if zones is None:
+        zones = [1]
     # Merge static + dynamic registers
     register_map = {
         **_IWR_STATIC_REGISTER_MAP,
-        **_build_zone_registers(zone_count),
+        **_build_zone_registers(zones),
         **_build_board_registers(),
     }
     sensors = {
         **_IWR_STATIC_SENSORS,
-        **_build_zone_sensors(zone_count),
+        **_build_zone_sensors(zones),
         **_build_board_sensors(),
     }
     binary_sensors = {
         **_IWR_STATIC_BINARY_SENSORS,
-        **_build_zone_binary_sensors(zone_count),
+        **_build_zone_binary_sensors(zones),
     }
 
     return {

@@ -55,8 +55,8 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         # Load device-specific configuration
         device_type_str = entry.data.get(CONF_DEVICE_TYPE, DeviceType.ISR.value)
         self._device_type = DeviceType(device_type_str)
-        zone_count = entry.data.get("zone_count", 1)
-        device_config = get_device_config(self._device_type, zone_count=zone_count)
+        zones = entry.data.get("zones", [1])
+        device_config = get_device_config(self._device_type, zones=zones)
         self.register_map: dict[str, Any] = device_config["register_map"]
         self.sensors: dict[str, Any] = device_config["sensors"]
         self.binary_sensors: dict[str, Any] = device_config["binary_sensors"]

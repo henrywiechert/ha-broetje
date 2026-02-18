@@ -37,14 +37,26 @@
           "unit_id": "Modbus unit/slave ID (default: 1)"
         }
       },
-      "iwr_zones": {
+      "iwr_zone_method": {
         "title": "Zone Configuration",
-        "description": "Select the number of zones (heating circuits, DHW, etc.) configured on your system.",
+        "description": "Choose how to configure the heating zones for your IWR system.",
+        "menu_options": {
+          "iwr_zones_auto": "Autodetect zones",
+          "iwr_zones_manual": "Manual selection"
+        }
+      },
+      "iwr_zones_auto": {
+        "title": "Autodetected Zones",
+        "description": "The following zones were detected on your system. Active zones are pre-selected. Adjust the selection as needed.",
         "data": {
-          "zone_count": "Number of zones"
-        },
-        "data_description": {
-          "zone_count": "Number of zones to monitor (1-12). Check your appliance configuration."
+          "zones": "Zones"
+        }
+      },
+      "iwr_zones_manual": {
+        "title": "Manual Zone Selection",
+        "description": "Select the zones configured on your system.",
+        "data": {
+          "zones": "Zones"
         }
       }
     },
@@ -54,6 +66,50 @@
     },
     "abort": {
       "already_configured": "This device is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Brötje Heating Options",
+        "description": "Select which settings to configure.",
+        "menu_options": {
+          "general": "General settings",
+          "zone_config": "Zone configuration"
+        }
+      },
+      "general": {
+        "title": "General Settings",
+        "description": "Adjust polling and integration settings.",
+        "data": {
+          "scan_interval": "Scan interval (seconds)"
+        },
+        "data_description": {
+          "scan_interval": "How often to poll the Modbus device for updated values (10-3600 seconds)."
+        }
+      },
+      "zone_config": {
+        "title": "Zone Configuration",
+        "description": "Choose how to reconfigure the heating zones.",
+        "menu_options": {
+          "zones_auto": "Autodetect zones",
+          "zones_manual": "Manual selection"
+        }
+      },
+      "zones_auto": {
+        "title": "Autodetected Zones",
+        "description": "The following zones were detected on your system. Active zones are pre-selected. Adjust the selection as needed.",
+        "data": {
+          "zones": "Zones"
+        }
+      },
+      "zones_manual": {
+        "title": "Manual Zone Selection",
+        "description": "Select the zones configured on your system. Currently configured zones are pre-selected.",
+        "data": {
+          "zones": "Zones"
+        }
+      }
     }
   },
   "entity": {

@@ -28,7 +28,7 @@ type BroetjeConfigEntry = ConfigEntry[BroetjeModbusCoordinator]
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Migrate old config entries to new format."""
-    if config_entry.version > 2:
+    if config_entry.version > 3:
         return False
 
     if config_entry.version == 1:
@@ -41,6 +41,24 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) ->
             minor_version=1,
         )
         _LOGGER.info("Migration to version 2 successful: added device_type=isr")
+
+    if config_entry.version == 2:
+        _LOGGER.debug("Migrating config entry from version 2 to 3")
+        zone_count = config_entry.data.get("zone_count", 1)
+        new_data = {**config_entry.data}
+        new_data.pop("zone_count", None)
+        new_data["zones"] = list(range(1, zone_count + 1))
+        hass.config_entries.async_update_entry(
+            config_entry,
+            data=new_data,
+            version=3,
+            minor_version=1,
+        )
+        _LOGGER.info(
+            "Migration to version 3 successful: zone_count=%d -> zones=%s",
+            zone_count,
+            new_data["zones"],
+        )
 
     return True
 
@@ -69,8 +87,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: BroetjeConfigEntry) -> b
 def _cleanup_orphan_zone_devices(
     hass: HomeAssistant, entry: BroetjeConfigEntry
 ) -> None:
-    """Remove zone sub-devices that exceed the current zone_count."""
-    zone_count = entry.data.get("zone_count", 0)
+    """Remove zone sub-devices that are no longer in the configured zones list."""
+    configured_zones = set(entry.data.get("zones", []))
     device_registry = dr.async_get(hass)
     entry_id = entry.entry_id
 
@@ -81,11 +99,11 @@ def _cleanup_orphan_zone_devices(
             match = zone_id_pattern.match(identifier)
             if match:
                 zone_num = int(match.group(1))
-                if zone_num > zone_count:
+                if zone_num not in configured_zones:
                     _LOGGER.info(
-                        "Removing orphaned zone device: Zone %d (zone_count=%d)",
+                        "Removing orphaned zone device: Zone %d (configured=%s)",
                         zone_num,
-                        zone_count,
+                        sorted(configured_zones),
                     )
                     device_registry.async_remove_device(device.id)
                 break

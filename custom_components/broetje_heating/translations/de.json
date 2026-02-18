@@ -37,14 +37,26 @@
           "unit_id": "Modbus Geräte-/Slave-ID (Standard: 1)"
         }
       },
-      "iwr_zones": {
+      "iwr_zone_method": {
         "title": "Heizkreiskonfiguration",
-        "description": "Wählen Sie die Anzahl der Heizkreise (Heizkreise, Warmwasser usw.), die in Ihrem System konfiguriert sind.",
+        "description": "Wählen Sie, wie die Heizkreise für Ihr IWR-System konfiguriert werden sollen.",
+        "menu_options": {
+          "iwr_zones_auto": "Heizkreise automatisch erkennen",
+          "iwr_zones_manual": "Manuelle Auswahl"
+        }
+      },
+      "iwr_zones_auto": {
+        "title": "Erkannte Heizkreise",
+        "description": "Die folgenden Heizkreise wurden an Ihrem System erkannt. Aktive Kreise sind vorausgewählt. Passen Sie die Auswahl bei Bedarf an.",
         "data": {
-          "zone_count": "Anzahl der Heizkreise"
-        },
-        "data_description": {
-          "zone_count": "Anzahl der zu überwachenden Heizkreise (1-12). Prüfen Sie Ihre Gerätekonfiguration."
+          "zones": "Heizkreise"
+        }
+      },
+      "iwr_zones_manual": {
+        "title": "Manuelle Heizkreisauswahl",
+        "description": "Wählen Sie die an Ihrem System konfigurierten Heizkreise aus.",
+        "data": {
+          "zones": "Heizkreise"
         }
       }
     },
@@ -60,12 +72,42 @@
     "step": {
       "init": {
         "title": "Brötje Heizung Optionen",
+        "description": "Wählen Sie, welche Einstellungen Sie konfigurieren möchten.",
+        "menu_options": {
+          "general": "Allgemeine Einstellungen",
+          "zone_config": "Heizkreiskonfiguration"
+        }
+      },
+      "general": {
+        "title": "Allgemeine Einstellungen",
         "description": "Abfrage- und Integrationseinstellungen anpassen.",
         "data": {
           "scan_interval": "Abfrageintervall (Sekunden)"
         },
         "data_description": {
           "scan_interval": "Wie oft das Modbus-Gerät nach aktualisierten Werten abgefragt wird (10-3600 Sekunden)."
+        }
+      },
+      "zone_config": {
+        "title": "Heizkreiskonfiguration",
+        "description": "Wählen Sie, wie die Heizkreise neu konfiguriert werden sollen.",
+        "menu_options": {
+          "zones_auto": "Heizkreise automatisch erkennen",
+          "zones_manual": "Manuelle Auswahl"
+        }
+      },
+      "zones_auto": {
+        "title": "Erkannte Heizkreise",
+        "description": "Die folgenden Heizkreise wurden an Ihrem System erkannt. Aktive Kreise sind vorausgewählt. Passen Sie die Auswahl bei Bedarf an.",
+        "data": {
+          "zones": "Heizkreise"
+        }
+      },
+      "zones_manual": {
+        "title": "Manuelle Heizkreisauswahl",
+        "description": "Wählen Sie die an Ihrem System konfigurierten Heizkreise aus. Aktuell konfigurierte Kreise sind vorausgewählt.",
+        "data": {
+          "zones": "Heizkreise"
         }
       }
     }
