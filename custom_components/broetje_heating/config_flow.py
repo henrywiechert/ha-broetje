@@ -84,11 +84,6 @@ async def detect_zones(client: Any, unit_id: int) -> list[dict[str, Any]]:
 
     Returns list of 12 dicts with keys: zone, zone_type, zone_function, active, label.
     """
-    _LOGGER.debug(
-        "Starting zone detection for unit_id=%d, client connected=%s",
-        unit_id,
-        getattr(client, "connected", "unknown"),
-    )
     results: list[dict[str, Any]] = []
     for z in range(12):
         zn = z + 1
@@ -127,14 +122,6 @@ async def detect_zones(client: Any, unit_id: int) -> list[dict[str, Any]]:
         except Exception:
             _LOGGER.exception("Zone %d: exception reading registers", zn)
 
-        _LOGGER.debug(
-            "Zone detect: zone %d addr=%d/%d => type=%d, function=%d",
-            zn,
-            type_addr,
-            func_addr,
-            zone_type,
-            zone_function,
-        )
         active = zone_type not in _ZONE_TYPE_INACTIVE
         type_label = _ZONE_TYPE_LABELS.get(zone_type, f"type {zone_type}")
         func_label = _ZONE_FUNCTION_LABELS.get(zone_function, f"func {zone_function}")
