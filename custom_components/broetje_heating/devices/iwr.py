@@ -2451,13 +2451,13 @@ def _build_zone_registers(zones: list[int]) -> dict[str, Any]:
             "data_type": "int16",
             "scale": IWR_SCALE_ROOM_TEMP,
         }
-        # 1105 - Zone room temperature measured (INT16, 0.1°C)
+        # 1105 - Zone room temperature measured (INT16, 0.01°C)
         registers[f"{prefix}_room_temp_measured"] = {
             "address": _zone_addr(1105, z),
             "type": REG_HOLDING,
             "count": 1,
             "data_type": "int16",
-            "scale": IWR_SCALE_ROOM_TEMP,
+            "scale": IWR_SCALE_TEMP,
         }
         # 1106 - Zone heat demand on/off (ENUM8, 0=off/1=on)
         registers[f"{prefix}_heat_demand"] = {
