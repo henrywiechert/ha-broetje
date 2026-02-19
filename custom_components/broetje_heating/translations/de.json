@@ -1353,7 +1353,7 @@
         "name": "Heizkreis {zone} Vorlauftemperatur"
       },
       "zone_flow_setpoint": {
-        "name": "Heizkreis {zone} Temperatursollwert"
+        "name": "Heizkreis {zone} Vorlauftemperatursollwert"
       },
       "zone_room_setpoint": {
         "name": "Heizkreis {zone} Raumtemperatursollwert"
