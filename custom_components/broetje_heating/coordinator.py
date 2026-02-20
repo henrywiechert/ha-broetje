@@ -387,17 +387,16 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 return None
             return value * scale
 
-        if data_type == "int32":
-            value = (registers[0] << 16) | registers[1]
-            if value >= 2147483648:
+        if data_type in ("int32", "uint32"):
+            hi, lo = (
+                (registers[1], registers[0])
+                if config.get("word_swap")
+                else (registers[0], registers[1])
+            )
+            value = (hi << 16) | lo
+            if data_type == "int32" and value >= 2147483648:
                 value -= 4294967296
-            if value in self._SENTINEL_VALUES.get("int32", ()):
-                return None
-            return value * scale
-
-        if data_type == "uint32":
-            value = (registers[0] << 16) | registers[1]
-            if value in self._SENTINEL_VALUES.get("uint32", ()):
+            if value in self._SENTINEL_VALUES.get(data_type, ()):
                 return None
             return value * scale
 

@@ -954,6 +954,7 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "count": 2,
         "data_type": "uint32",
         "scale": IWR_SCALE_POWER,
+        "word_swap": True,
     },
     "cop": {
         "address": 9230,
