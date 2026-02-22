@@ -61,7 +61,8 @@ Register specification: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040
 - **Read-only monitoring**
 - **IWR**: ~213 entities (1 zone) up to ~884 entities (12 zones) — main appliance, zone parameters & measurements, device info, service, error diagnostics
 - **ISR**: 117 entities (100 sensors + 17 binary sensors) across 6 categories
-- **Configurable zones** (IWR): 1–12 zones selectable during setup
+- **Zone detection** (IWR): Automatically detects active zones by reading zone type and function registers from the device; active zones are pre-selected, inactive ones shown but unchecked. Manual selection also available.
+- **Configurable zones** (IWR): 1–12 zones selectable during setup or reconfigurable via integration options
 - **Configurable scan interval**: Adjustable polling interval via integration options (default: 120 seconds)
 - **German and English translations**
 - **Sentinel value filtering**: Invalid Modbus readings (0xFFFF, 0xFFFFFFFF) are shown as "Unavailable" instead of bogus numbers
@@ -133,7 +134,9 @@ Register specification: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040
    - **Host**: IP address of your Modbus TCP gateway
    - **Port**: Modbus TCP port (default: 502)
    - **Unit ID**: Modbus slave ID (default: 1)
-6. **IWR only**: Select the number of zones (1–12) configured on your system
+6. **IWR only**: Choose how to configure zones:
+   - **Autodetect**: Reads zone type and function registers from the device; active zones are pre-selected, inactive ones shown but unchecked. Review and confirm the selection.
+   - **Manual**: Select any combination of zones 1–12.
 
 To add a second module (e.g., both ISR and IWR), simply add the integration again and select the other module type.
 
@@ -142,6 +145,7 @@ To add a second module (e.g., both ISR and IWR), simply add the integration agai
 After setup, click the **Configure** (gear icon) button on the integration entry to adjust:
 
 - **Scan interval**: How often the integration polls the Modbus device (default: 120 seconds, range: 10–3600). Changes take effect immediately without restart.
+- **Zone configuration** (IWR only): Re-run autodetection or manually change which zones are active. Changes trigger an integration reload.
 
 ## Entities
 
