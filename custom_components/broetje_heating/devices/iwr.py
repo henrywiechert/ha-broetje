@@ -26,6 +26,7 @@ IWR_STATIC_ENTITY_CLASSIFICATION: Final[dict[str, tuple[str | None, bool]]] = {
     "water_pressure": (None, True),
     "actual_power": (None, True),
     "cop": (None, True),
+    "hybrid_cop": (None, True),
     "system_power": (None, True),
     "relative_power": (None, True),
     "pump_speed": (None, True),
@@ -97,6 +98,7 @@ IWR_STATIC_ENTITY_CLASSIFICATION: Final[dict[str, tuple[str | None, bool]]] = {
     "control_algorithm_type": ("diagnostic", False),
     "control_heat_demand_type": ("diagnostic", False),
     "cop_threshold": ("diagnostic", False),
+    "hybrid_cop_threshold": ("diagnostic", False),
     "ionization_current": ("diagnostic", False),
     # ===== Status backup indicators — Diagnostic, disabled by default =====
     "status_backup1_on": ("diagnostic", False),
@@ -955,6 +957,22 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "data_type": "uint32",
         "scale": IWR_SCALE_POWER,
     },
+    # HM031 - Instantaneous COP calculated by Hybrid application (Tab. Boiler)
+    "hybrid_cop": {
+        "address": 462,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_COP,
+    },
+    # HM032 - COP threshold calculated by Hybrid application (Tab. Boiler)
+    "hybrid_cop_threshold": {
+        "address": 463,
+        "type": REG_HOLDING,
+        "count": 1,
+        "data_type": "uint16",
+        "scale": IWR_SCALE_COP,
+    },
     "cop": {
         "address": 9230,
         "type": REG_HOLDING,
@@ -1617,6 +1635,22 @@ _IWR_STATIC_SENSORS: Final = {
     "cop_threshold": {
         "register": "cop_threshold",
         "translation_key": "cop_threshold",
+        "device_class": None,
+        "unit": None,
+        "state_class": "measurement",
+        "icon": "mdi:chart-line",
+    },
+    "hybrid_cop": {
+        "register": "hybrid_cop",
+        "translation_key": "hybrid_cop",
+        "device_class": None,
+        "unit": None,
+        "state_class": "measurement",
+        "icon": "mdi:chart-line",
+    },
+    "hybrid_cop_threshold": {
+        "register": "hybrid_cop_threshold",
+        "translation_key": "hybrid_cop_threshold",
         "device_class": None,
         "unit": None,
         "state_class": "measurement",

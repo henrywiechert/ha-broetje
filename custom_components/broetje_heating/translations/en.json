@@ -1192,6 +1192,12 @@
       "cop_threshold": {
         "name": "COP threshold"
       },
+      "hybrid_cop": {
+        "name": "Hybrid COP"
+      },
+      "hybrid_cop_threshold": {
+        "name": "Hybrid COP threshold"
+      },
       "cascade_flow_temperature": {
         "name": "Cascade flow temperature"
       },

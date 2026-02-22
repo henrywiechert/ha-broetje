@@ -1192,6 +1192,12 @@
       "cop_threshold": {
         "name": "COP-Schwellenwert"
       },
+      "hybrid_cop": {
+        "name": "Hybrid-COP"
+      },
+      "hybrid_cop_threshold": {
+        "name": "Hybrid-COP-Schwellenwert"
+      },
       "cascade_flow_temperature": {
         "name": "Kaskade Vorlauftemperatur"
       },
