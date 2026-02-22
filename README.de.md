@@ -61,7 +61,8 @@ Registerspezifikation: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040=
 - **Nur-Lesen Überwachung**
 - **IWR**: ~213 Entitäten (1 Zone) bis ~884 Entitäten (12 Zonen) — Hauptgerät, Zonenparameter & -messwerte, Geräteinformationen, Wartung, Fehlerdiagnose
 - **ISR**: 117 Entitäten (100 Sensoren + 17 Binärsensoren) in 6 Kategorien
-- **Konfigurierbare Zonen** (IWR): 1–12 Zonen bei der Einrichtung auswählbar
+- **Zonenerkennung** (IWR): Erkennt aktive Zonen automatisch durch Auslesen der Zonentyp- und Zonenfunktionsregister vom Gerät; aktive Zonen werden vorausgewählt, inaktive angezeigt aber nicht ausgewählt. Manuelle Auswahl ebenfalls möglich.
+- **Konfigurierbare Zonen** (IWR): 1–12 Zonen bei der Einrichtung auswählbar oder über Integrationsoptionen neu konfigurierbar
 - **Konfigurierbares Abfrageintervall**: Über Integrationsoptionen einstellbar (Standard: 120 Sekunden)
 - **Deutsche und englische Übersetzungen**
 - **Sentinel-Wert-Filterung**: Ungültige Modbus-Werte (0xFFFF, 0xFFFFFFFF) werden als „Nicht verfügbar" angezeigt statt als unsinnige Zahlen
@@ -133,7 +134,9 @@ Registerspezifikation: [de-de_ma_modbm.pdf](https://polo.broetje.de/pdf/7715040=
    - **Host**: IP-Adresse des Modbus TCP Gateways
    - **Port**: Modbus TCP Port (Standard: 502)
    - **Unit ID**: Modbus Slave ID (Standard: 1)
-6. **Nur IWR**: Anzahl der Zonen (1–12) auswählen, die im System konfiguriert sind
+6. **Nur IWR**: Zoneneinrichtungsmethode wählen:
+   - **Automatisch erkennen**: Liest Zonentyp- und Zonenfunktionsregister vom Gerät; aktive Zonen werden vorausgewählt, inaktive angezeigt aber nicht ausgewählt. Auswahl prüfen und bestätigen.
+   - **Manuell**: Beliebige Kombination der Zonen 1–12 auswählen.
 
 Um ein zweites Modul hinzuzufügen (z.B. ISR und IWR), die Integration einfach erneut hinzufügen und den anderen Modultyp auswählen.
 
@@ -142,6 +145,7 @@ Um ein zweites Modul hinzuzufügen (z.B. ISR und IWR), die Integration einfach e
 Nach der Einrichtung kann über das **Konfigurieren**-Symbol (Zahnrad) am Integrationseintrag Folgendes angepasst werden:
 
 - **Abfrageintervall**: Wie oft die Integration das Modbus-Gerät abfragt (Standard: 120 Sekunden, Bereich: 10–3600). Änderungen werden sofort ohne Neustart wirksam.
+- **Zonenkonfiguration** (nur IWR): Automatische Erkennung erneut ausführen oder aktive Zonen manuell ändern. Änderungen lösen einen Neustart der Integration aus.
 
 ## Entitäten
 
