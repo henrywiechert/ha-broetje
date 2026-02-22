@@ -17,6 +17,7 @@ from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
+    ALWAYS_PRESENT_SUBDEVICES,
     CONF_SCAN_INTERVAL,
     CONF_UNIT_ID,
     DEFAULT_SCAN_INTERVAL,
@@ -25,6 +26,9 @@ from .const import (
     MANUFACTURER,
     REG_HOLDING,
     REG_INPUT,
+    SUBDEV_BUFFER_TANK,
+    SUBDEV_HYBRID,
+    SUBDEV_SOLAR,
 )
 from .devices import CONF_DEVICE_TYPE, DEVICE_MODELS, DeviceType, get_device_config
 
@@ -71,6 +75,9 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.device_manufacturer: str = MANUFACTURER
         self.device_firmware: str | None = None
 
+        # Sub-devices active for this installation; populated during _async_setup
+        self.active_sub_devices: set[str] = set()
+
     def update_scan_interval(self, scan_interval: int) -> None:
         """Update the polling interval (called when options change)."""
         self.update_interval = timedelta(seconds=scan_interval)
@@ -80,6 +87,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         """Set up the coordinator (called during first refresh)."""
         await self._connect()
         await self._read_device_info()
+        await self._detect_sub_devices()
 
     async def _connect(self) -> None:
         """Establish connection to the Modbus device."""
@@ -108,6 +116,46 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         # TODO: Implement reading device info from Modbus registers
         # This will be populated once we have the register addresses from the PDF
         pass
+
+    # Sentinel values that indicate a register/subsystem is not present.
+    # 0xFF   (255)   — UINT8 / ENUM8 "no data" sentinel
+    # 0xFFFF (65535) — UINT16 "no data" sentinel (also returned by some devices
+    #                  for registers that exist in the spec but are not wired up)
+    _DETECTION_SENTINELS: frozenset[int] = frozenset({0xFF, 0xFFFF})
+
+    async def _detect_sub_devices(self) -> None:
+        """Detect which optional sub-devices are present on this installation.
+
+        Always-present sub-devices (boiler, service) are added unconditionally
+        for IWR devices. Conditional sub-devices are detected by probing a
+        characteristic register: a non-sentinel, non-zero response means the
+        subsystem is present.
+        """
+        if self._device_type != DeviceType.IWR:
+            return
+
+        # Always-present sub-devices for IWR
+        self.active_sub_devices = set(ALWAYS_PRESENT_SUBDEVICES)
+
+        # Buffer Tank: reg 197 (UINT8) — value 1 means active; 0 means not active
+        result = await self._read_registers(197, 1, REG_HOLDING)
+        if result is not None and result[0] == 1:
+            self.active_sub_devices.add(SUBDEV_BUFFER_TANK)
+            _LOGGER.debug("Sub-device detected: Buffer Tank (reg 197 = %d)", result[0])
+
+        # Solar: reg 8114 (ENUM8 solar boiler status) — present if not a sentinel value
+        result = await self._read_registers(8114, 1, REG_HOLDING)
+        if result is not None and result[0] not in self._DETECTION_SENTINELS:
+            self.active_sub_devices.add(SUBDEV_SOLAR)
+            _LOGGER.debug("Sub-device detected: Solar (reg 8114 = 0x%X)", result[0])
+
+        # Hybrid: reg 9204 (UINT8 appliance status) — present if not a sentinel value
+        result = await self._read_registers(9204, 1, REG_HOLDING)
+        if result is not None and result[0] not in self._DETECTION_SENTINELS:
+            self.active_sub_devices.add(SUBDEV_HYBRID)
+            _LOGGER.debug("Sub-device detected: Hybrid (reg 9204 = 0x%X)", result[0])
+
+        _LOGGER.info("Active sub-devices: %s", sorted(self.active_sub_devices))
 
     async def _read_registers(
         self,

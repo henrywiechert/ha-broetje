@@ -7,7 +7,11 @@ from __future__ import annotations
 
 from typing import Any, Final
 
-from ..const import REG_HOLDING
+from ..const import (
+    REG_HOLDING,
+    SUBDEV_BOILER,
+    SUBDEV_SERVICE,
+)
 
 ZONE_ADDR_OFFSET: Final = 512
 ZONE_TYPE_BASE_ADDR: Final = 640
@@ -1385,6 +1389,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "%",
         "state_class": "measurement",
         "icon": "mdi:gauge",
+        "sub_device": SUBDEV_BOILER,
     },
     "control_temperature": {
         "register": "control_temperature",
@@ -1392,6 +1397,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "control_algorithm_type": {
         "register": "control_algorithm_type",
@@ -1401,6 +1407,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:cog-outline",
         "enum_map": "iwr_algorithm_type",
+        "sub_device": SUBDEV_BOILER,
     },
     "control_heat_demand_type": {
         "register": "control_heat_demand_type",
@@ -1410,6 +1417,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:fire-circle",
         "enum_map": "iwr_heat_demand_type",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Main Appliance Sensors ---
     "system_power": {
@@ -1419,6 +1427,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "%",
         "state_class": "measurement",
         "icon": "mdi:gauge",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Received Temperatures from CU (from German spec 7740782-01) ---
     "cu_flow_temperature": {
@@ -1427,6 +1436,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "cu_return_temperature": {
         "register": "cu_return_temperature",
@@ -1434,6 +1444,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "outside_temperature": {
         "register": "outside_temperature",
@@ -1441,6 +1452,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "seasonal_mode": {
         "register": "seasonal_mode",
@@ -1450,6 +1462,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:weather-partly-cloudy",
         "enum_map": "iwr_seasonal_mode",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Appliance Parameters (from German spec 7740782-01) ---
     "summer_winter_threshold": {
@@ -1459,6 +1472,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
         "icon": "mdi:thermometer-lines",
+        "sub_device": SUBDEV_BOILER,
     },
     "neutral_band": {
         "register": "neutral_band",
@@ -1467,6 +1481,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
         "icon": "mdi:thermometer-lines",
+        "sub_device": SUBDEV_BOILER,
     },
     "frost_protection_threshold": {
         "register": "frost_protection_threshold",
@@ -1475,6 +1490,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
         "icon": "mdi:snowflake-thermometer",
+        "sub_device": SUBDEV_BOILER,
     },
     "force_summer_mode": {
         "register": "force_summer_mode",
@@ -1484,6 +1500,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:weather-sunny",
         "enum_map": "iwr_on_off",
+        "sub_device": SUBDEV_BOILER,
     },
     "flow_temperature": {
         "register": "flow_temperature",
@@ -1491,6 +1508,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "return_temperature": {
         "register": "return_temperature",
@@ -1498,6 +1516,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "exhaust_gas_temperature": {
         "register": "exhaust_gas_temperature",
@@ -1505,6 +1524,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "hp_flow_temperature": {
         "register": "hp_flow_temperature",
@@ -1512,6 +1532,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "hp_return_temperature": {
         "register": "hp_return_temperature",
@@ -1519,6 +1540,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Internal Setpoints (from German spec 7740782-01) ---
     "internal_dhw_setpoint": {
@@ -1528,6 +1550,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
         "icon": "mdi:water-thermometer",
+        "sub_device": SUBDEV_BOILER,
     },
     "ch_setpoint": {
         "register": "ch_setpoint",
@@ -1536,6 +1559,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
         "icon": "mdi:thermostat",
+        "sub_device": SUBDEV_BOILER,
     },
     "cooling_setpoint": {
         "register": "cooling_setpoint",
@@ -1544,6 +1568,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "°C",
         "state_class": "measurement",
         "icon": "mdi:snowflake-thermometer",
+        "sub_device": SUBDEV_BOILER,
     },
     "dhw_flow_setpoint": {
         "register": "dhw_flow_setpoint",
@@ -1551,6 +1576,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "water_pressure": {
         "register": "water_pressure",
@@ -1558,6 +1584,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "pressure",
         "unit": "bar",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "flow_rate": {
         "register": "flow_rate",
@@ -1566,6 +1593,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "l/min",
         "state_class": "measurement",
         "icon": "mdi:water-pump",
+        "sub_device": SUBDEV_BOILER,
     },
     "main_status": {
         "register": "main_status",
@@ -1575,6 +1603,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:information-outline",
         "enum_map": "iwr_main_status",
+        "sub_device": SUBDEV_BOILER,
     },
     "sub_status": {
         "register": "sub_status",
@@ -1584,6 +1613,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:information-outline",
         "enum_map": "iwr_sub_status",
+        "sub_device": SUBDEV_BOILER,
     },
     "relative_power": {
         "register": "relative_power",
@@ -1592,6 +1622,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "%",
         "state_class": "measurement",
         "icon": "mdi:gauge",
+        "sub_device": SUBDEV_BOILER,
     },
     "power_setpoint": {
         "register": "power_setpoint",
@@ -1600,6 +1631,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "%",
         "state_class": "measurement",
         "icon": "mdi:gauge",
+        "sub_device": SUBDEV_BOILER,
     },
     "ionization_current": {
         "register": "ionization_current",
@@ -1608,6 +1640,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "µA",
         "state_class": "measurement",
         "icon": "mdi:flash",
+        "sub_device": SUBDEV_BOILER,
     },
     "pump_speed": {
         "register": "pump_speed",
@@ -1616,6 +1649,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "%",
         "state_class": "measurement",
         "icon": "mdi:pump",
+        "sub_device": SUBDEV_BOILER,
     },
     "actual_power": {
         "register": "actual_power",
@@ -1623,6 +1657,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "power",
         "unit": "kW",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "cop": {
         "register": "cop",
@@ -1631,6 +1666,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "measurement",
         "icon": "mdi:chart-line",
+        "sub_device": SUBDEV_BOILER,
     },
     "cop_threshold": {
         "register": "cop_threshold",
@@ -1639,6 +1675,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "measurement",
         "icon": "mdi:chart-line",
+        "sub_device": SUBDEV_BOILER,
     },
     "hybrid_cop": {
         "register": "hybrid_cop",
@@ -1647,6 +1684,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "measurement",
         "icon": "mdi:chart-line",
+        "sub_device": SUBDEV_BOILER,
     },
     "hybrid_cop_threshold": {
         "register": "hybrid_cop_threshold",
@@ -1655,6 +1693,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "measurement",
         "icon": "mdi:chart-line",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Cascade Flow/Return Temperature (Tab.23) ---
     "cascade_flow_temperature": {
@@ -1663,6 +1702,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     "cascade_return_temperature": {
         "register": "cascade_return_temperature",
@@ -1670,6 +1710,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "temperature",
         "unit": "°C",
         "state_class": "measurement",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Counters & Energy ---
     "total_starts": {
@@ -1679,6 +1720,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "total_increasing",
         "icon": "mdi:counter",
+        "sub_device": SUBDEV_BOILER,
     },
     "total_operating_hours": {
         "register": "total_operating_hours",
@@ -1687,6 +1729,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "h",
         "state_class": "total_increasing",
         "icon": "mdi:clock-outline",
+        "sub_device": SUBDEV_BOILER,
     },
     "backup1_starts": {
         "register": "backup1_starts",
@@ -1695,6 +1738,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "total_increasing",
         "icon": "mdi:counter",
+        "sub_device": SUBDEV_BOILER,
     },
     "backup1_operating_hours": {
         "register": "backup1_operating_hours",
@@ -1703,6 +1747,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "h",
         "state_class": "total_increasing",
         "icon": "mdi:clock-outline",
+        "sub_device": SUBDEV_BOILER,
     },
     "backup2_starts": {
         "register": "backup2_starts",
@@ -1711,6 +1756,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "total_increasing",
         "icon": "mdi:counter",
+        "sub_device": SUBDEV_BOILER,
     },
     "backup2_operating_hours": {
         "register": "backup2_operating_hours",
@@ -1719,6 +1765,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "h",
         "state_class": "total_increasing",
         "icon": "mdi:clock-outline",
+        "sub_device": SUBDEV_BOILER,
     },
     "mains_power_hours": {
         "register": "mains_power_hours",
@@ -1727,6 +1774,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "h",
         "state_class": "total_increasing",
         "icon": "mdi:clock-outline",
+        "sub_device": SUBDEV_BOILER,
     },
     "energy_consumed_ch": {
         "register": "energy_consumed_ch",
@@ -1734,6 +1782,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "energy_consumed_dhw": {
         "register": "energy_consumed_dhw",
@@ -1741,6 +1790,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "energy_consumed_cooling": {
         "register": "energy_consumed_cooling",
@@ -1748,6 +1798,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "total_energy_consumed": {
         "register": "total_energy_consumed",
@@ -1755,6 +1806,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "energy_consumed_backup": {
         "register": "energy_consumed_backup",
@@ -1762,6 +1814,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "total_thermal_delivered": {
         "register": "total_thermal_delivered",
@@ -1769,6 +1822,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "thermal_delivered_ch": {
         "register": "thermal_delivered_ch",
@@ -1776,6 +1830,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "thermal_delivered_dhw": {
         "register": "thermal_delivered_dhw",
@@ -1783,6 +1838,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "thermal_delivered_cooling": {
         "register": "thermal_delivered_cooling",
@@ -1790,6 +1846,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     "energy_delivered_backup": {
         "register": "energy_delivered_backup",
@@ -1797,6 +1854,7 @@ _IWR_STATIC_SENSORS: Final = {
         "device_class": "energy",
         "unit": "kWh",
         "state_class": "total_increasing",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Appliance Enable/Disable (from German spec 7740782-01) ---
     "ch_enabled": {
@@ -1807,6 +1865,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:radiator",
         "enum_map": "iwr_on_off",
+        "sub_device": SUBDEV_BOILER,
     },
     "dhw_enabled": {
         "register": "dhw_enabled",
@@ -1816,6 +1875,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:water-boiler",
         "enum_map": "iwr_on_off",
+        "sub_device": SUBDEV_BOILER,
     },
     "cooling_enabled": {
         "register": "cooling_enabled",
@@ -1825,6 +1885,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:snowflake",
         "enum_map": "iwr_cooling_enabled",
+        "sub_device": SUBDEV_BOILER,
     },
     "cooling_forced": {
         "register": "cooling_forced",
@@ -1834,6 +1895,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:snowflake-alert",
         "enum_map": "iwr_on_off",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Service sensors ---
     "service_notification": {
@@ -1844,6 +1906,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:wrench",
         "enum_map": "iwr_service_notification",
+        "sub_device": SUBDEV_SERVICE,
     },
     "hours_producing_since_service": {
         "register": "hours_producing_since_service",
@@ -1852,6 +1915,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "h",
         "state_class": "total_increasing",
         "icon": "mdi:clock-alert-outline",
+        "sub_device": SUBDEV_SERVICE,
     },
     "hours_since_service": {
         "register": "hours_since_service",
@@ -1860,6 +1924,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": "h",
         "state_class": "total_increasing",
         "icon": "mdi:clock-alert-outline",
+        "sub_device": SUBDEV_SERVICE,
     },
     "starts_since_service": {
         "register": "starts_since_service",
@@ -1868,6 +1933,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": "total_increasing",
         "icon": "mdi:counter",
+        "sub_device": SUBDEV_SERVICE,
     },
     # --- Error sensors ---
     "devices_connected": {
@@ -1877,6 +1943,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": None,
         "icon": "mdi:developer-board",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board1_error_code": {
         "register": "board1_error_code",
@@ -1885,6 +1952,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board1_error_severity": {
         "register": "board1_error_severity",
@@ -1894,6 +1962,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
         "enum_map": "iwr_error_severity",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board2_error_code": {
         "register": "board2_error_code",
@@ -1902,6 +1971,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board2_error_severity": {
         "register": "board2_error_severity",
@@ -1911,6 +1981,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
         "enum_map": "iwr_error_severity",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board3_error_code": {
         "register": "board3_error_code",
@@ -1919,6 +1990,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board3_error_severity": {
         "register": "board3_error_severity",
@@ -1928,6 +2000,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
         "enum_map": "iwr_error_severity",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board4_error_code": {
         "register": "board4_error_code",
@@ -1936,6 +2009,7 @@ _IWR_STATIC_SENSORS: Final = {
         "unit": None,
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
+        "sub_device": SUBDEV_SERVICE,
     },
     "board4_error_severity": {
         "register": "board4_error_severity",
@@ -1945,6 +2019,7 @@ _IWR_STATIC_SENSORS: Final = {
         "state_class": None,
         "icon": "mdi:alert-circle-outline",
         "enum_map": "iwr_error_severity",
+        "sub_device": SUBDEV_SERVICE,
     },
 }
 
@@ -1957,41 +2032,48 @@ _IWR_STATIC_BINARY_SENSORS: Final = {
         "translation_key": "demand_direct_zones",
         "device_class": None,
         "icon": "mdi:radiator",
+        "sub_device": SUBDEV_BOILER,
     },
     "demand_mixing_circuits": {
         "register": "demand_mixing_circuits",
         "translation_key": "demand_mixing_circuits",
         "device_class": None,
         "icon": "mdi:valve",
+        "sub_device": SUBDEV_BOILER,
     },
     "demand_valves_open_safety": {
         "register": "demand_valves_open_safety",
         "translation_key": "demand_valves_open_safety",
         "device_class": None,
         "icon": "mdi:valve-open",
+        "sub_device": SUBDEV_BOILER,
     },
     "demand_manual_heat": {
         "register": "demand_manual_heat",
         "translation_key": "demand_manual_heat",
         "device_class": None,
         "icon": "mdi:hand-back-right",
+        "sub_device": SUBDEV_BOILER,
     },
     "demand_cooling_allowed": {
         "register": "demand_cooling_allowed",
         "translation_key": "demand_cooling_allowed",
         "device_class": None,
         "icon": "mdi:snowflake",
+        "sub_device": SUBDEV_BOILER,
     },
     "demand_dhw_allowed": {
         "register": "demand_dhw_allowed",
         "translation_key": "demand_dhw_allowed",
         "device_class": None,
         "icon": "mdi:water-boiler",
+        "sub_device": SUBDEV_BOILER,
     },
     "demand_heat_engine_active": {
         "register": "demand_heat_engine_active",
         "translation_key": "demand_heat_engine_active",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Bitfield 279: Output status 1 ---
     "status_flame_on": {
@@ -1999,91 +2081,108 @@ _IWR_STATIC_BINARY_SENSORS: Final = {
         "translation_key": "status_flame_on",
         "device_class": None,
         "icon": "mdi:fire",
+        "sub_device": SUBDEV_BOILER,
     },
     "status_heat_pump_on": {
         "register": "status_heat_pump_on",
         "translation_key": "status_heat_pump_on",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "status_backup1_on": {
         "register": "status_backup1_on",
         "translation_key": "status_backup1_on",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "status_backup2_on": {
         "register": "status_backup2_on",
         "translation_key": "status_backup2_on",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "status_dhw_backup_on": {
         "register": "status_dhw_backup_on",
         "translation_key": "status_dhw_backup_on",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "status_service_required": {
         "register": "status_service_required",
         "translation_key": "status_service_required",
         "device_class": "problem",
+        "sub_device": SUBDEV_SERVICE,
     },
     "status_power_down_needed": {
         "register": "status_power_down_needed",
         "translation_key": "status_power_down_needed",
         "device_class": "problem",
+        "sub_device": SUBDEV_SERVICE,
     },
     "status_water_pressure_low": {
         "register": "status_water_pressure_low",
         "translation_key": "status_water_pressure_low",
         "device_class": "problem",
+        "sub_device": SUBDEV_SERVICE,
     },
     # --- Bitfield 280: Output status 2 ---
     "output_pump": {
         "register": "output_pump",
         "translation_key": "output_pump",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "output_3way_valve_open": {
         "register": "output_3way_valve_open",
         "translation_key": "output_3way_valve_open",
         "device_class": None,
         "icon": "mdi:valve-open",
+        "sub_device": SUBDEV_BOILER,
     },
     "output_3way_valve": {
         "register": "output_3way_valve",
         "translation_key": "output_3way_valve",
         "device_class": None,
         "icon": "mdi:valve",
+        "sub_device": SUBDEV_BOILER,
     },
     "output_3way_valve_closed": {
         "register": "output_3way_valve_closed",
         "translation_key": "output_3way_valve_closed",
         "device_class": None,
         "icon": "mdi:valve-closed",
+        "sub_device": SUBDEV_BOILER,
     },
     "output_dhw_active": {
         "register": "output_dhw_active",
         "translation_key": "output_dhw_active",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "output_ch_active": {
         "register": "output_ch_active",
         "translation_key": "output_ch_active",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     "output_cooling_active": {
         "register": "output_cooling_active",
         "translation_key": "output_cooling_active",
         "device_class": "running",
+        "sub_device": SUBDEV_BOILER,
     },
     # --- Service / Error binary sensors ---
     "service_required": {
         "register": "service_required",
         "translation_key": "service_required",
         "device_class": "problem",
+        "sub_device": SUBDEV_SERVICE,
     },
     "error_present": {
         "register": "error_present",
         "translation_key": "error_present",
         "device_class": "problem",
+        "sub_device": SUBDEV_SERVICE,
     },
 }
 

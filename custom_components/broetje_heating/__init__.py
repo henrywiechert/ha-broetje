@@ -12,7 +12,7 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
 
-from .const import CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
+from .const import CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL, SUB_DEVICE_LABELS
 from .coordinator import BroetjeModbusCoordinator
 from .devices import CONF_DEVICE_TYPE, DeviceType
 
@@ -78,6 +78,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: BroetjeConfigEntry) -> b
 
     # Clean up orphaned zone sub-devices when zone_count has been reduced
     _cleanup_orphan_zone_devices(hass, entry)
+    # Clean up sub-devices that are no longer detected on this installation
+    _cleanup_orphan_sub_devices(hass, entry, coordinator)
 
     entry.async_on_unload(entry.add_update_listener(_async_update_options))
 
@@ -107,6 +109,28 @@ def _cleanup_orphan_zone_devices(
                     )
                     device_registry.async_remove_device(device.id)
                 break
+
+
+def _cleanup_orphan_sub_devices(
+    hass: HomeAssistant,
+    entry: BroetjeConfigEntry,
+    coordinator: BroetjeModbusCoordinator,
+) -> None:
+    """Remove functional sub-devices that are no longer detected on this installation."""
+    device_registry = dr.async_get(hass)
+    entry_id = entry.entry_id
+    known_subdev_ids = {f"{entry_id}_{key}" for key in SUB_DEVICE_LABELS}
+    active_subdev_ids = {f"{entry_id}_{key}" for key in coordinator.active_sub_devices}
+
+    for device in dr.async_entries_for_config_entry(device_registry, entry_id):
+        for _, identifier in device.identifiers:
+            if identifier in known_subdev_ids and identifier not in active_subdev_ids:
+                _LOGGER.info(
+                    "Removing orphaned sub-device: %s",
+                    identifier,
+                )
+                device_registry.async_remove_device(device.id)
+            break
 
 
 async def _async_update_options(hass: HomeAssistant, entry: BroetjeConfigEntry) -> None:

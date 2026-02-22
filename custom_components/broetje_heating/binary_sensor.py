@@ -35,6 +35,9 @@ async def async_setup_entry(
     entities: list[BroetjeBinarySensor] = []
 
     for sensor_key, sensor_config in coordinator.binary_sensors.items():
+        sub_device = sensor_config.get("sub_device")
+        if sub_device is not None and sub_device not in coordinator.active_sub_devices:
+            continue
         entities.append(
             BroetjeBinarySensor(
                 coordinator=coordinator,
@@ -60,6 +63,7 @@ class BroetjeBinarySensor(BroetjeEntity, BinarySensorEntity):
             coordinator,
             entity_key,
             zone_number=sensor_config.get("zone_number"),
+            sub_device=sensor_config.get("sub_device"),
         )
 
         self._register_key = sensor_config["register"]

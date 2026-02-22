@@ -20,6 +20,24 @@ MANUFACTURER: Final = "Brötje"
 REG_INPUT: Final = "input"
 REG_HOLDING: Final = "holding"
 
+# Sub-device identifiers
+SUBDEV_BOILER: Final = "boiler"
+SUBDEV_SERVICE: Final = "service"
+SUBDEV_SOLAR: Final = "solar"
+SUBDEV_BUFFER_TANK: Final = "buffer_tank"
+SUBDEV_HYBRID: Final = "hybrid"
+
+SUB_DEVICE_LABELS: Final[dict[str, str]] = {
+    SUBDEV_BOILER: "Boiler",
+    SUBDEV_SERVICE: "Service",
+    SUBDEV_SOLAR: "Solar",
+    SUBDEV_BUFFER_TANK: "Buffer Tank",
+    SUBDEV_HYBRID: "Hybrid",
+}
+
+# Always-present sub-devices for IWR (created unconditionally)
+ALWAYS_PRESENT_SUBDEVICES: Final = {SUBDEV_BOILER, SUBDEV_SERVICE}
+
 # Scale factors from Brötje ISR documentation
 SCALE_TEMP: Final = 1 / 64  # 0.015625 - for temperature values
 SCALE_CURVE: Final = 1 / 50  # 0.02 - for heating curve slope
