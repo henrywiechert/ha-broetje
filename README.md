@@ -56,6 +56,7 @@ All Brötje heatpumps and gasboilers with one of the listed Modbus interfaces.
 - **Brötje BLW Eco 12.1**
 - **Brötje BLW Mono 8** (Hybrid Setup, Remeha GTW-08)
 - **Brötje BLW Eco 6.1** (GTW-08, Waveshare RS485/RJ45 Ethernet Converter)
+- **Brötje BLW Mono 6.1**
  
 *Other Brötje heating systems with Modbus interface should also work. I appreciate any feedback for other models*
 
