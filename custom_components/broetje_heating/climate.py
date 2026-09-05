@@ -45,7 +45,7 @@ async def async_setup_entry(
 class BroetjeClimate(BroetjeEntity, ClimateEntity):
     """Climate entity representing a Brötje heating zone thermostat."""
 
-    _attr_hvac_modes: ClassVar = [HVACMode.HEAT, HVACMode.OFF]
+    _attr_hvac_modes: ClassVar[list[HVACMode]] = [HVACMode.HEAT, HVACMode.OFF]
     _attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_target_temperature_step = 0.5
