@@ -13,7 +13,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from .coordinator import BroetjeModbusCoordinator
 from .entity import BroetjeEntity
 
-
 # Map device class strings to actual classes
 DEVICE_CLASS_MAP = {
     "running": BinarySensorDeviceClass.RUNNING,

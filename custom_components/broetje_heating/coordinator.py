@@ -5,10 +5,7 @@ from __future__ import annotations
 import asyncio
 import logging
 from datetime import timedelta
-from typing import Any
-
-from pymodbus.client import AsyncModbusTcpClient
-from pymodbus.exceptions import ModbusException
+from typing import Any, ClassVar
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT, Platform
@@ -16,6 +13,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from pymodbus.client import AsyncModbusTcpClient
+from pymodbus.exceptions import ModbusException
 
 from .const import (
     ALWAYS_PRESENT_SUBDEVICES,
@@ -119,7 +118,6 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         """Read device identification information."""
         # TODO: Implement reading device info from Modbus registers
         # This will be populated once we have the register addresses from the PDF
-        pass
 
     # Sentinel values that indicate a register/subsystem is not present.
     # 0xFF   (255)   — UINT8 / ENUM8 "no data" sentinel
@@ -449,7 +447,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     # Standard Modbus sentinel values indicating "not available" / "no data".
     # These are checked against the raw decoded value BEFORE scaling.
-    _SENTINEL_VALUES: dict[str, set[int]] = {
+    _SENTINEL_VALUES: ClassVar[dict[str, set[int]]] = {
         "int16": {-1},  # 0xFFFF signed
         "uint16": {0xFFFF},  # 65535
         "int32": {-1},  # 0xFFFFFFFF signed
@@ -532,7 +530,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         return [value & 0xFFFF]
 
-    async def async_write_register(self, register_key: str, value: float | int) -> None:
+    async def async_write_register(self, register_key: str, value: float) -> None:
         """Write a value to a writable register.
 
         Validates the writable flag and bounds, applies reverse scaling,
@@ -566,7 +564,7 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         # Reverse scaling: convert user-facing value to raw register value
         scale = config.get("scale", 1.0)
-        raw_value = int(round(value / scale)) if scale != 1 else int(value)
+        raw_value = round(value / scale) if scale != 1 else int(value)
 
         # Encode to register word(s)
         data_type = config.get("data_type", "uint16")
