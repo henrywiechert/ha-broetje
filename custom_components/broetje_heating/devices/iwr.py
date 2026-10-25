@@ -843,7 +843,7 @@ _IWR_STATIC_REGISTER_MAP: Final = {
         "address": 409,
         "type": REG_HOLDING,
         "count": 1,
-        "data_type": "uint16",
+        "data_type": "uint8",
         "scale": IWR_SCALE_PRESSURE,
     },
     "flow_rate": {
@@ -2586,7 +2586,7 @@ def _build_zone_registers(zones: list[int]) -> dict[str, Any]:
             "address": ZONE_ADDRESSES["CP23X"][z],
             "type": REG_HOLDING,
             "count": 1,
-            "data_type": "uint16",
+            "data_type": "uint8",
             "scale": 0.1,
         }
         # CP21X - Heating curve footpoint (UINT16, 0.1°C, Tab.40)
@@ -2843,7 +2843,7 @@ def _build_zone_registers(zones: list[int]) -> dict[str, Any]:
             "address": _zone_addr(687, z),
             "type": REG_HOLDING,
             "count": 1,
-            "data_type": "uint16",
+            "data_type": "uint8",
             "scale": 1,
         }
         # 688 - Time program selected (ENUM8)

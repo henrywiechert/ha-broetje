@@ -450,6 +450,9 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     _SENTINEL_VALUES: ClassVar[dict[str, set[int]]] = {
         "int16": {-1},  # 0xFFFF signed
         "uint16": {0xFFFF},  # 65535
+        # UINT8 values occupy a full 16-bit register; accept both the 8-bit
+        # "no data" sentinel and a 0xFFFF fill from devices that pad it.
+        "uint8": {0xFF, 0xFFFF},
         "int32": {-1},  # 0xFFFFFFFF signed
         "uint32": {0xFFFFFFFF},  # 4294967295
     }
@@ -479,9 +482,9 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 return None
             return value * scale
 
-        if data_type == "uint16":
+        if data_type in ("uint8", "uint16"):
             value = registers[0]
-            if value in self._SENTINEL_VALUES.get("uint16", ()):
+            if value in self._SENTINEL_VALUES.get(data_type, ()):
                 return None
             return value * scale
 
