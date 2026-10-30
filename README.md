@@ -15,7 +15,7 @@ This integration supports two Brötje Modbus modules. During installation, you s
 
 | Module | Type | Typical Use | Status |
 |--------|------|-------------|--------|
-| **IWR / GTW-08** | Gateway module | Heat pumps, newer systems | Supported |
+| **IWR / GTW-08** | Gateway module (modbus) | Heat pumps, newer systems | Supported |
 | **ISR Plus** | Modbus module | Gas boilers, older systems | Supported |
 
 ### IWR / GTW-08 (Gateway Module)
@@ -74,7 +74,7 @@ All Brötje heatpumps and gasboilers with one of the listed Modbus interfaces.
 - **Configurable zones** (IWR): 1–12 zones selectable during setup or reconfigurable via integration options
 - **Configurable scan interval**: Adjustable polling interval via integration options (default: 120 seconds)
 - **German and English translations**
-- **Sentinel value filtering**: Invalid Modbus readings (0xFFFF, 0xFFFFFFFF) are shown as "Unavailable" instead of bogus numbers
+- **Sentinel value filtering**: Invalid Modbus readings (0xFF, 0xFFFF, 0xFFFFFFFF) are shown as "Unavailable" instead of bogus numbers, dependent on their datatype
 
 ### ISR Coverage
 
@@ -101,7 +101,7 @@ All Brötje heatpumps and gasboilers with one of the listed Modbus interfaces.
 ## Requirements
 
 - Brötje heating system with Modbus interface
-- Modbus TCP gateway connected to the heating system
+- Modbus TCP gateway connected to the heating system (e.g. Waveshare RS485/RJ45 Ethernet Converter, also esphome_modbus_bridge was reported to work with ESPHome)
 - Home Assistant 2024.1.0 or newer
 
 ## Installation
