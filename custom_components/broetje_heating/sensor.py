@@ -30,6 +30,7 @@ DEVICE_CLASS_MAP = {
     "energy": SensorDeviceClass.ENERGY,
     "frequency": SensorDeviceClass.FREQUENCY,
     "duration": SensorDeviceClass.DURATION,
+    "timestamp": SensorDeviceClass.TIMESTAMP,
     "enum": SensorDeviceClass.ENUM,
 }
 

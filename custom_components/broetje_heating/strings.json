@@ -1359,6 +1359,9 @@
           "off": "Off"
         }
       },
+      "zone_end_change_mode_time": {
+        "name": "Zone {zone} end of mode change"
+      },
       "zone_fixed_flow_setpoint": {
         "name": "Zone {zone} fixed flow setpoint"
       },
@@ -1588,6 +1591,28 @@
     }
   },
   "services": {
+    "zone_boost": {
+      "name": "Zone boost (timed override)",
+      "description": "Writes the zone's \"End change mode time\" register (the register the Br\u00f6tje app uses for its boost) to now + duration. Optionally also switches the zone control mode to manual. The end time uses Home Assistant's local time. Behaviour on the heat pump is still being verified: enable the \"end of mode change\" diagnostic sensor to check the value.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Device",
+          "description": "The Br\u00f6tje Heating (IWR/GTW-08) config entry."
+        },
+        "zone": {
+          "name": "Zone",
+          "description": "Zone number (1-12), e.g. the zone that carries domestic hot water."
+        },
+        "duration": {
+          "name": "Duration",
+          "description": "Minutes from now until the override ends. The app boost uses 30."
+        },
+        "control_mode": {
+          "name": "Control mode",
+          "description": "Keep: only write the end time. Manual: additionally set the zone control mode to manual (the zone then heats to the comfort setpoint)."
+        }
+      }
+    },
     "debug_read_register": {
       "name": "DANGER: Read raw Modbus register",
       "description": "Reads raw register word(s) directly by address, bypassing all known-register validation. For diagnosing undocumented registers only. Must be enabled per-device in the integration options first.",
@@ -1610,7 +1635,7 @@
         },
         "data_type": {
           "name": "Data type",
-          "description": "How to decode the result for display (raw, uint16, int16, uint32, int32, string). Default: raw."
+          "description": "How to decode the result for display (raw, uint16, int16, uint32, int32, string, time_of_day). Default: raw."
         }
       }
     },

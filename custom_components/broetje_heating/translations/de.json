@@ -1456,6 +1456,9 @@
           "off": "Aus"
         }
       },
+      "zone_end_change_mode_time": {
+        "name": "Heizkreis {zone} Ende Moduswechsel"
+      },
       "zone_fixed_flow_setpoint": {
         "name": "Heizkreis {zone} Vorlaufsollwert (fest)"
       },
@@ -1867,6 +1870,28 @@
     }
   },
   "services": {
+    "zone_boost": {
+      "name": "Heizkreis-Boost (zeitlich begrenzt)",
+      "description": "Schreibt das Register \"Ende Moduswechsel\" des Heizkreises (das Register, das auch die Br\u00f6tje-App f\u00fcr den Boost nutzt) auf jetzt + Dauer. Optional wird zus\u00e4tzlich der Steuerungsmodus auf Manuell gesetzt. Die Endzeit verwendet die lokale Zeit von Home Assistant. Das Verhalten an der W\u00e4rmepumpe wird noch verifiziert: Mit dem Diagnosesensor \"Ende Moduswechsel\" l\u00e4sst sich der Wert pr\u00fcfen.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Ger\u00e4t",
+          "description": "Der Br\u00f6tje-Heizung-Konfigurationseintrag (IWR/GTW-08)."
+        },
+        "zone": {
+          "name": "Heizkreis",
+          "description": "Heizkreisnummer (1-12), z. B. der Heizkreis mit Warmwasser."
+        },
+        "duration": {
+          "name": "Dauer",
+          "description": "Minuten ab jetzt bis zum Ende der \u00dcbersteuerung. Der App-Boost nutzt 30."
+        },
+        "control_mode": {
+          "name": "Steuerungsmodus",
+          "description": "Beibehalten: nur die Endzeit schreiben. Manuell: zus\u00e4tzlich den Steuerungsmodus des Heizkreises auf Manuell setzen (der Heizkreis heizt dann auf den Komfortsollwert)."
+        }
+      }
+    },
     "debug_read_register": {
       "name": "GEFAHR: Modbus-Register roh lesen",
       "description": "Liest rohe Register-W\u00f6rter direkt \u00fcber die Adresse, ohne jegliche Validierung gegen bekannte Register. Nur zur Diagnose undokumentierter Register. Muss zuvor pro Ger\u00e4t in den Integrationsoptionen aktiviert werden.",

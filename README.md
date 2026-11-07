@@ -180,6 +180,12 @@ entities:
     name: Pumpe
 ```
 
+## Zone boost (experimental, IWR only)
+
+The action `broetje_heating.zone_boost` writes the zone's *End change mode time* register (zone 1 = 978, zone 2 = 1490, ... one per zone, 3 registers) to *now + duration*. This is the register the Brötje app is believed to use for its 30-minute boost. Optionally (`control_mode: manual`) it also sets the zone control mode to manual.
+
+> **Still being verified on real hardware.** The spec only says "milliseconds after midnight + days since 1984-01-01" and does not state byte order or timezone (the integration assumes big-endian and Home Assistant local time). It is also not confirmed that writing this register alone starts the *Temporary* operating mode. To check, enable the diagnostic sensor *Zone N end of mode change* and run `debug_read_register` (`address: 1490`, `count: 3`, `data_type: time_of_day`) while an app boost is running. Please report your findings in an issue.
+
 ## Troubleshooting
 
 ### Cannot connect to device

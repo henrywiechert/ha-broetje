@@ -191,6 +191,7 @@ IWR_ZONE_ENTITY_CLASSIFICATION: Final[dict[str, tuple[str | None, bool]]] = {
     "zone_room_setpoint_manual": (None, True),
     "zone_control_mode": (None, True),
     # ===== Zone commissioning metadata — Diagnostic, disabled by default =====
+    "zone_end_change_mode_time": ("diagnostic", False),
     "zone_function": ("diagnostic", False),
     "zone_device_type": ("diagnostic", False),
     "zone_type": ("diagnostic", False),
@@ -2561,6 +2562,16 @@ def _build_zone_registers(zones: list[int]) -> dict[str, Any]:
             "min": 0,
             "max": 2,
         }
+        # Zone "End change mode Time" (OCTET_STRING[6] Time_Of_Day, R/W).
+        # Zone 1 = 978, zone 2 = 1490, ... Used by the app boost.
+        registers[f"{prefix}_end_change_mode_time"] = {
+            "address": _zone_addr(978, z),
+            "type": REG_HOLDING,
+            "count": 3,
+            "data_type": "time_of_day",
+            "scale": 1,
+            "writable": True,
+        }
         # CP01X - Zone fixed flow setpoint (UINT16, 0.01°C, Tab.37)
         registers[f"{prefix}_fixed_flow_setpoint"] = {
             "address": ZONE_ADDRESSES["CP01X"][z],
@@ -3039,6 +3050,15 @@ def _build_zone_sensors(zones: list[int]) -> dict[str, Any]:
             "state_class": None,
             "icon": "mdi:cog",
             "enum_map": "iwr_zone_control_mode",
+            "zone_number": zn,
+        }
+        sensors[f"{prefix}_end_change_mode_time"] = {
+            "register": f"{prefix}_end_change_mode_time",
+            "translation_key": "zone_end_change_mode_time",
+            "device_class": "timestamp",
+            "unit": None,
+            "state_class": None,
+            "icon": "mdi:timer-outline",
             "zone_number": zn,
         }
         sensors[f"{prefix}_fixed_flow_setpoint"] = {

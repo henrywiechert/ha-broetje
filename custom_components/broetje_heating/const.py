@@ -56,3 +56,9 @@ ATTR_REGISTER_TYPE: Final = "register_type"
 ATTR_DATA_TYPE: Final = "data_type"
 ATTR_VALUES: Final = "values"
 ATTR_CONFIRM: Final = "confirm"
+
+# Zone boost service (timed override via the zone "End change mode Time" register)
+SERVICE_ZONE_BOOST: Final = "zone_boost"
+ATTR_ZONE: Final = "zone"
+ATTR_DURATION: Final = "duration"
+ATTR_CONTROL_MODE: Final = "control_mode"

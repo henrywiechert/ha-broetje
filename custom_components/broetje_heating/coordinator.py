@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any, ClassVar
 
 from homeassistant.config_entries import ConfigEntry
@@ -13,6 +13,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.util import dt as dt_util
 from pymodbus.client import AsyncModbusTcpClient
 from pymodbus.exceptions import ModbusException
 
@@ -31,6 +32,7 @@ from .const import (
     SUBDEV_SOLAR,
 )
 from .devices import CONF_DEVICE_TYPE, DEVICE_MODELS, DeviceType, get_device_config
+from .timestamp import decode_time_of_day, encode_time_of_day
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -502,6 +504,13 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 return None
             return value * scale
 
+        if data_type == "time_of_day":
+            decoded = decode_time_of_day(registers)
+            if decoded is None:
+                return None
+            # The device has no timezone; its clock is treated as HA local time
+            return decoded.replace(tzinfo=dt_util.get_default_time_zone())
+
         if data_type == "string":
             # Decode registers as ASCII string
             chars = []
@@ -583,13 +592,23 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             register_words,
         )
 
+        await self._async_write_words(register_key, address, register_words)
+        await self.async_request_refresh()
+
+    async def _async_write_words(
+        self, register_key: str, address: int, words: list[int]
+    ) -> list[int] | None:
+        """Write register words, then read them back to verify.
+
+        Returns the read-back words (None if the read-back failed).
+        """
         async with self._lock:
             try:
                 await self._connect()
 
                 result = await self._client.write_registers(
                     address=address,
-                    values=register_words,
+                    values=words,
                     device_id=self._unit_id,
                 )
 
@@ -605,20 +624,50 @@ class BroetjeModbusCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 ) from err
 
         # Read-back verification
-        readback = await self._read_registers(
-            address, config.get("count", 1), REG_HOLDING
-        )
+        readback = await self._read_registers(address, len(words), REG_HOLDING)
         if readback is not None:
-            readback_words = readback[: len(register_words)]
-            if readback_words != register_words:
+            readback_words = readback[: len(words)]
+            if readback_words != words:
                 _LOGGER.warning(
                     "Read-back mismatch for %s: wrote %s, read %s",
                     register_key,
-                    register_words,
+                    words,
                     readback_words,
                 )
+            return readback_words
+        return None
 
+    async def async_write_time_of_day(
+        self, register_key: str, value: datetime
+    ) -> tuple[list[int], datetime | None]:
+        """Write a Time_Of_Day timestamp register (naive local datetime).
+
+        Returns the words that were written and the decoded read-back value
+        (None if the device did not return a valid timestamp).
+        """
+        config = self.register_map.get(register_key)
+        if config is None:
+            raise HomeAssistantError(f"Unknown register: {register_key}")
+        if not config.get("writable"):
+            raise HomeAssistantError(f"Register {register_key} is not writable")
+        if config.get("data_type") != "time_of_day":
+            raise HomeAssistantError(f"Register {register_key} is not a timestamp")
+
+        try:
+            words = encode_time_of_day(value)
+        except ValueError as err:
+            raise HomeAssistantError(str(err)) from err
+
+        _LOGGER.debug(
+            "Writing timestamp %s to %s (addr=%d): words=%s",
+            value,
+            register_key,
+            config["address"],
+            words,
+        )
+        readback = await self._async_write_words(register_key, config["address"], words)
         await self.async_request_refresh()
+        return words, decode_time_of_day(readback) if readback else None
 
     async def async_debug_read_registers(
         self, address: int, count: int, register_type: str

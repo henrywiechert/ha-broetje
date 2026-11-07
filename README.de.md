@@ -163,6 +163,12 @@ Für IWR-Entitäten siehe [`custom_components/broetje_heating/register_map.csv`]
 
 Nicht jeder Sensor ist in allen Heizsystemen verfügbar! Z.B. Gasverbrauch bei Wärmepumpen oder COP bei Gasheizungen.
 
+## Heizkreis-Boost (experimentell, nur IWR)
+
+Die Aktion `broetje_heating.zone_boost` schreibt das Register *Ende Moduswechsel* des Heizkreises (Heizkreis 1 = 978, Heizkreis 2 = 1490, ... je Heizkreis 3 Register) auf *jetzt + Dauer*. Vermutlich nutzt die Brötje-App dieses Register für ihren 30-Minuten-Boost. Optional (`control_mode: manual`) wird zusätzlich der Steuerungsmodus auf Manuell gesetzt.
+
+> **Noch nicht an echter Hardware verifiziert.** Die Spezifikation nennt nur „Millisekunden nach Mitternacht + Tage seit 01.01.1984“, aber weder Byte-Reihenfolge noch Zeitzone (angenommen: Big-Endian und lokale Zeit von Home Assistant). Ebenfalls unbestätigt ist, ob allein das Schreiben dieses Registers die Betriebsart *Temporär* startet. Zum Prüfen den Diagnosesensor *Heizkreis N Ende Moduswechsel* aktivieren und während eines App-Boosts `debug_read_register` (`address: 1490`, `count: 3`, `data_type: time_of_day`) ausführen. Ergebnisse bitte als Issue melden.
+
 ## Fehlerbehebung
 
 ### Verbindung zum Gerät nicht möglich
